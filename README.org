@@ -21,4 +21,5 @@ In order to make this work you will need to place the following in your ~init.el
 (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))
 
 #+END_SRC
-
+*** Code Blocks in Org Mode
+The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognisable as such for formatting and also for Org Babel it is marged as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
