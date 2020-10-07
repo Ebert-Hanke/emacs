@@ -51,6 +51,23 @@ In the following you find a lot of config suggestions, which you could copy to y
 *** Tips & Tricks
 If you ever want to comment out a whole codeblock for a particular part of your config you can use the command ~C-c ;~ on a subtree so everything under this will not get compiled by org babel.
 *** General Settings 
+**** Fixes for MacOS
+If you are using a mac you might need this to make emacs work properly. Maybe not any more, maybe not on your system. If you are using MacOS and have problems, try it or do some research online.
+#+BEGIN_SRC emacs-lisp
+  (exec-path-from-shell-initialize)
+  ;; macos problem fix for keyboard
+  (set-keyboard-coding-system nil)
+
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'none)
+(setq ns-function-modifier 'super)
+
+;; ls --dired option is not supported on mac
+(when (string= system-type "darwin")       
+  (setq dired-use-ls-dired nil))
+#+END_SRC
 **** User Info
 Specify your name and email adress if you like.
 #+BEGIN_SRC emacs-lisp
@@ -101,7 +118,7 @@ Since you might re-visit your configuration quite regularly to fiddle around wit
   (defun config-visit ()
     (interactive)
     (find-file "~/.emacs.d/setup.org")) ; the path to your config file
-  (global-set-key (kbd "C-c e") 'config-visit) ; you can bin any key binding you like, here I chose "C-c e"
+  (global-set-key (kbd "C-c e") 'config-visit) ; you can pick any key binding you like, here I chose "C-c e"
 #+END_SRC
 **** Reload Config
 After you changed stuff in your config you might want to reload it. Keep in mind that some changes need a restart of Emacs so this will not always work.
@@ -151,4 +168,17 @@ So this one is a bit more involved and really more an aesthetical choice but if 
 After changes it might be necessary to run ~M-x spaceline-compile~
 
 
-
+*** Mode Line
+You can customize a lot of the info which is displayes in your mode-line. Here are some things to pick from or extend.
+**** Time / Time Format
+I like a clock in the mode-line and I like 24h format with date.
+#+BEGIN_SRC emacs-lisp
+(setq display-time-24hr-format t)
+(setq display-time-format "%H:%M / %d %b")
+(display-time-mode 1)
+#+END_SRC
+**** Mail
+The mode-line usually tells you if you have mail. If you do not want this, put the following.
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables '(display-time-mail-string ""))
+#+END_SRC
