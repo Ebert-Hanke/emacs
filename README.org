@@ -27,8 +27,27 @@ In order to make this work you will need to place the following in your ~init.el
 
 #+END_SRC
 *** Code Blocks in Org Mode
-The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognisable as such for formatting and also for Org Babel it is marged as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
+The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognisable as such for formatting and also for Org Babel it is marked as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
 *** Comments in Emacs Lisp
 Since this config will mostly be written in Org Mode, there will be a lot of explanation and links to further reading material in the prose parts but putting comments in the code blocks themselves is of course always good practice. For the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html][Emacs Lisp Comment Syntax]] have a look here.
 *** Emacs Packages & MELPA
 Additions to the vanilla core of Emacs come in the form of [[https://www.emacswiki.org/emacs/InstallingPackages][Packages]] and can be added from different places, the most relevant being [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. In this config the ~use-package~ macro will be used. For more information on [[https://github.com/jwiegley/use-package][use-package]] check the repository here.
+** Your Config File
+Next up on the list ist the actual congig file which we will call ~setup.org~. If you want to give it another name, just change the reference in the ~init.el~. Since this file will get compiled to ~setup.el~ you want to avoid naming conflicts and not call it ~init.org~. For more information on the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html][Files Emacs uses for Initialization]] have a look here.
+In the following you find a lot of config suggestions, which you could copy to your personal config. The beauty of Emacs is that you can make it the perfect tool for what you want to use it for, so there is obviously no config for every person. This is just meant as a sort of currated list of configurations and packages that you might want to evaluate and modify to your own liking. By doing this you hopefully find your way to making Emacs just perfect for you. 
+** The Bits and Pieces for the Config
+*** Tips & Tricks
+If you ever want to comment out a whole codeblock for a particular part of your config you can use the command ~C-c ;~ on a subtree so everything under this will not get compiled by org babel.
+*** General Settings 
+**** User Info
+Specify your name and email adress if you like.
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Your Full Name")
+(setq user-mail-address "youremail@something.something")
+#+END_SRC
+**** Startup Screen
+You might not want to see the startup screen every time you start Emacs.
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-screen t)
+#+END_SRC
+
