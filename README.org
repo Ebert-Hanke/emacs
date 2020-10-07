@@ -95,7 +95,23 @@ There are lots of great fonts to choose from. Here are some recommendations whic
 - [[https://www.levien.com/type/myfonts/inconsolata.html][Inconsolata]]
 - [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]
 Once you installed the font of your desire on your system (or picked any already installed font on your system), you can set it via the menu bar ~Options -> Set Default Font~ and then ~Options -> Save Options~. If you have disabled the menu bar (see above) you can still use the GUI picker by doing ~M-x menu-set-font~.
-
+**** Spaceline
+So this one is a bit more involved and really more an aesthetical choice but if you like to have a different mode-line (the line below which gives you all sorts of usefull information) than you could use this mode-line from [[https://www.spacemacs.org/][Spacemacs]] (which is an Emacs distribution). You find all the info about [[https://github.com/TheBB/spaceline][Spaceline]] and how to configure it here. As a starting point this is what I use at the moment:
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline
+    :ensure t
+    :config
+    (require 'spaceline-config)
+    (setq spaceline-buffer-encoding-abbrev-p nil)
+    (setq spaceline-line-column-p nil)
+    (setq spaceline-line-p nil)
+    (setq powerline-default-separator (quote arrow))
+    (spaceline-spacemacs-theme)
+    (setq spaceline-nyan-cat-p t)
+    (setq spaceline-buffer-position-p nil)
+    (setq spaceline-projectile-root-p nil))
+#+END_SRC
+After changes it might be necessary to run ~M-x spaceline-compile~
 
 
 
