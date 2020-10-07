@@ -101,7 +101,7 @@ Since you might re-visit your configuration quite regularly to fiddle around wit
   (defun config-visit ()
     (interactive)
     (find-file "~/.emacs.d/setup.org")) ; the path to your config file
-  (global-set-key (kbd "C-c e") 'config-visit) ; you can bin any key chord you like, here I chose "C-c e"
+  (global-set-key (kbd "C-c e") 'config-visit) ; you can bin any key binding you like, here I chose "C-c e"
 #+END_SRC
 **** Reload Config
 After you changed stuff in your config you might want to reload it. Keep in mind that some changes need a restart of Emacs so this will not always work.
@@ -109,7 +109,15 @@ After you changed stuff in your config you might want to reload it. Keep in mind
     (defun config-reload ()
       (interactive)
       (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))) ; the path to your config file
-    (global-set-key (kbd "C-c u") 'config-reload) ; the key chord to execute this function, here I chose "C-c u"
+    (global-set-key (kbd "C-c u") 'config-reload) ; the key binding to execute this function, here I chose "C-c u"
+#+END_SRC
+**** Kill Current Buffer
+To have a quick way to kill the current buffer you can use this.
+#+BEGIN_SRC emacs-lisp
+  (defun kill-curr-buffer ()
+    (interactive)
+    (kill-buffer (current-buffer)))
+  (global-set-key (kbd "C-x k") 'kill-curr-buffer) ; chose any key binding you like, I use "C-x k"
 #+END_SRC
 *** Aesthetics
 **** Color Themes
