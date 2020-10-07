@@ -1,1 +1,24 @@
-* emacs config
+* Emacs config 
+** How to use this config
+Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configurtion. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
+This configuration is written in [[https://orgmode.org/][Org mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
+In order to make this work you will need to place the following in your ~init.el~.
+*** What goes in your init.el 
+#+BEGIN_SRC emacs-lisp
+
+(require 'package)
+(package-initialize)
+
+(add-to-list 'package-archives
+	    '("melpa" . "https://melpa.org/packages/") t)
+
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+
+(require 'org)
+
+(org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))
+
+#+END_SRC
+
