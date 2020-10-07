@@ -1,25 +1,34 @@
 * Emacs config 
 ** How to use this config
-Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configurtion. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
+Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configuration. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
 This configuration is written in [[https://orgmode.org/][Org mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
 In order to make this work you will need to place the following in your ~init.el~.
 *** What goes in your init.el 
 #+BEGIN_SRC emacs-lisp
 
-(require 'package)
+;; require and initialize emacs package manager package
+(require 'package) 
 (package-initialize)
 
+;; add the MELPA repository as a source for packages you can then install
 (add-to-list 'package-archives
 	    '("melpa" . "https://melpa.org/packages/") t)
 
+;; we will be using the 'use-package' macro in this config so if it is not installed, install it and refresh the package list
 (unless (package-installed-p 'use-package)
 (package-refresh-contents)
 (package-install 'use-package))
 
+;; we need org mode to use org babel so we need to require it
 (require 'org)
 
+;; org babel will translate the source code blocks from your config written in org mode to an actual emacs config file, in this case the config in org mode is 'setup.org' and lives in your '.emacs.d' folder'
 (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))
 
 #+END_SRC
 *** Code Blocks in Org Mode
 The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognisable as such for formatting and also for Org Babel it is marged as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
+*** Comments in Emacs Lisp
+Since this config will mostly be written in Org Mode, there will be a lot of explanation and links to further reading material in the prose parts but putting comments in the code blocks themselves is of course always good practice. For the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html][Emacs Lisp Comment Syntax]] have a look here.
+*** Emacs Packages & MELPA
+Additions to the vanilla core of Emacs come in the form of [[https://www.emacswiki.org/emacs/InstallingPackages][Packages]] and can be added from different places, the most relevant being [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. In this config the ~use-package~ macro will be used. For more information on [[https://github.com/jwiegley/use-package][use-package]] check the repository here.
