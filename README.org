@@ -94,6 +94,23 @@ For a smoother scrolling behaviour with the cursor you can add this. For [[https
 #+BEGIN_SRC emacs-lisp
 (setq scroll-conservatively 1000)
 #+END_SRC
+*** Convenience
+**** Visit Your Config File
+Since you might re-visit your configuration quite regularly to fiddle around with things, you might want a quick way to open it. 
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/setup.org")) ; the path to your config file
+  (global-set-key (kbd "C-c e") 'config-visit) ; you can bin any key chord you like, here I chose "C-c e"
+#+END_SRC
+**** Reload Config
+After you changed stuff in your config you might want to reload it. Keep in mind that some changes need a restart of Emacs so this will not always work.
+ #+BEGIN_SRC emacs-lisp
+    (defun config-reload ()
+      (interactive)
+      (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))) ; the path to your config file
+    (global-set-key (kbd "C-c u") 'config-reload) ; the key chord to execute this function, here I chose "C-c u"
+#+END_SRC
 *** Aesthetics
 **** Color Themes
 There is a wide variety of color themes you can choose from and this is totally up to your own preference. I personally tried different things but keep coming back to the almighty [[https://github.com/bbatsov/zenburn-emacs][Zenburn]] by [[https://github.com/jnurmine][Jani Nurminen]] so I give this as a starting point. Check the link above on different ways to install it. The easiest might be ~M-x package-install zenburn-theme~ from Emacs directly. To automatically load it on startup put this in your config:
