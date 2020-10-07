@@ -80,7 +80,22 @@ Emacs will sometimes prompt you with an acoustic or visual signal to get your at
 **** Scrolling Behaviour
 For a smoother scrolling behaviour with the cursor you can add this. For [[https://www.emacswiki.org/emacs/SmoothScrolling][More Info on Scrolling]] check here.
 #+BEGIN_SRC emacs-lisp
-(setq scroll-conservatively 100)
+(setq scroll-conservatively 1000)
 #+END_SRC
+*** Aesthetics
+**** Color Themes
+There is a wide variety of color themes you can choose from and this is totally up to your own preference. I personally tried different things but keep coming back to the almighty [[https://github.com/bbatsov/zenburn-emacs][Zenburn]] by [[https://github.com/jnurmine][Jani Nurminen]] so I give this as a starting point. Check the link above on different ways to install it. The easiest might be ~M-x package-install zenburn-theme~ from Emacs directly. To automatically load it on startup put this in your config:
+#+begin_src emacs-lisp
+(load-theme 'zenburn t)
+#+end_src
+**** Fonts 
+There are lots of great fonts to choose from. Here are some recommendations which might be more aimed at writing code. If you want to use Emacs for writing text you might want to choose something else unless you like writing in a monospaced font (as I do). Personally I use Monoid (more specifically Monoisome).
+- [[https://larsenwork.com/monoid/][Monoid]]
+- [[https://github.com/tonsky/FiraCode][Fira Code]]
+- [[https://www.levien.com/type/myfonts/inconsolata.html][Inconsolata]]
+- [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]
+Once you installed the font of your desire on your system (or picked any already installed font on your system), you can set it via the menu bar ~Options -> Set Default Font~ and then ~Options -> Save Options~. If you have disabled the menu bar (see above) you can still use the GUI picker by doing ~M-x menu-set-font~.
+
+
 
 
