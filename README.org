@@ -208,7 +208,7 @@ The load average time can be displayed. I dont need that.
 #+END_SRC
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
-**** One Notefile to bind them ...  
+**** one Notefile to bind them ...  
 I personally like to have one giant notefile for all notes which I can access via keybinding and just put in whatever it is I have to write down. I divide it into a few meaningfull main categories and then create sub-categories as needed in the outline. To bring it up quickly I use:
 #+BEGIN_SRC emacs-lisp
 ;; modify filename / -path and keybinding to your liking
@@ -226,4 +226,46 @@ In order to make the Org Mode outline structure with the asteriskes look nicer I
 :config
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
+**** Paths for Org and Agenda
+For [[https://orgmode.org/manual/Agenda-Views.html][the Org Agenda]] and general Org Mode files, you should specify the paths which should be taken into account.
+#+BEGIN_SRC emacs-lisp
+  ;; org directories, please set your own
+  (setq org-directory "/pathtoyourorgfiles")
+  ;; agenda files, please set your own. multiple folders are possible
+  (setq org-agenda-files 
+  '("/filesforagenda" "/morefilesforagenda"))
+#+END_SRC
+**** Expand emacs-lisp code block
+Since you will use a lot of emacs-lisp codeblocks in this config you might want to make your life easier and add a snippet. By typing ~<s~ and pressing ~TAB~ you can quickly create a source code block. If you dont want to specify the emacs-lisp part every time you can add a new shortcut with the following. Type ~<el~ and press ~TAB~ now for an emacs-lisp source code block.
+#+BEGIN_SRC emacs-lisp
+;; necessary to use quick insertion of code blocks
+(require 'org-tempo)  
+;; add code block for emacs-lisp
+(add-to-list 'org-structure-template-alist
+               '("el" . "src emacs-lisp"))
+#+END_SRC
+**** Keybindings & Settings
+Keybindings in Emacs are absolutely flexible, so always pick what works for you. Some functions you might use often dont come with predefined keybindings so just choose some. Also there is a lot of setting variables you can use to fine tune the way Org Mode should work for you. Here are some.
+#+Begin_SRC emacs-lisp
+;; keybinding for linking things in .org documents
+(define-key global-map "\C-cl" 'org-store-link)
+;; keybinding to bring up the agenda view
+(define-key global-map "\C-ca" 'org-agenda)
+;; add a timestamp when a todo is changed to done
+(setq org-log-done time)
+;; soft wrap lines and indent for org mode
+(with-eval-after-load 'org       
+  (setq org-startup-indented t) 
+  (add-hook 'org-mode-hook 'visual-line-mode))
+#+END_SRC
+**** Time Tracking
+Org Mode provides you with a nice way to track time which I use a lot to keep track how many work hours I have spend on a project. Have a look at [[https://orgmode.org/manual/Clocking-Work-Time.html#Clocking-Work-Time][Clocking Work Time]] for the necessary commands you can use. To make this work better for my taste I specify some things.
+#+BEGIN_SRC emacs-lisp
+;; adjust time format for clocksum in column view
+(setq org-duration-format 'h:mm)
+(setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+;; clock into drawer CLOCKING
+(setq org-clock-into-drawer "CLOCKING")
+#+END_SRC
+
 
