@@ -1,6 +1,7 @@
 * Emacs config 
 ** Thanks!
 I am by no means an expert on Emacs and everything I know I slowly cobbled together from different resources. In particular there are some which helped me a lot in figuring some things out:
+
 - [[https://emacs-berlin.org/][the Emacs Berlin Meetup]]
 - [[https://github.com/gjstein][Gregory J Stein]]
 - [[https://cestlaz.github.io][Mike Zamansky]] 
@@ -12,12 +13,14 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - [[https://www.youtube.com/watch?v=I28jFkpN5Zk][Arjen Wiersma's GNU Emacs configuration for programming]]
 - ... and lots of others :)
 - and of course all the great documentation which I will do my best to link to in the appropriate places of this config
+
 If anyone feels like contributing to this config it would be great! I am sure there is a lot in it which can be done better. Please let me know.
+
 Also I would like to include more resources about Emacs, so please let me know, what might make sense.
 ** How to use this config
 Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configuration. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
 This configuration is written in [[https://orgmode.org/][Org Mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
-In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the moste efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarious or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file. If you are reading this on my GitHub page, the headlines which are commented out will not be displayed. It makes more sense to get this file and open it in your Emacs.
+In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the most efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarious or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file. If you are reading this on my GitHub page, the headlines which are commented out will not be displayed. It makes more sense to get this file and open it in your Emacs.
 *** COMMENT What goes in your init.el 
 #+BEGIN_SRC emacs-lisp
 
@@ -114,6 +117,19 @@ For a smoother scrolling behaviour with the cursor you can add this. For [[https
 #+BEGIN_SRC emacs-lisp
 (setq scroll-conservatively 1000)
 #+END_SRC
+**** Backups
+Emacs can create backup files for you and if you want to use this feature I would recommend some config for it in order to avoid clutter. There is an argument for not having backups because we use Git but I think disk space is cheap and why not just have them. More [[https://www.emacswiki.org/emacs/BackupDirectory][Info about Backups]] can be found here.
+#+BEGIN_SRC emacs-lisp
+;; specify your backup directory so your backups have a nice home
+(setq backup-directory-alist `(("." . "~/.emacs-backups")))
+;; backups should be made by copying which is safest (but maybe slower)
+(setq backup-by-copying t)
+;; define how backups should be handled
+(setq delete-old-versions t ; delete old versions
+kept-new-versions 6 ;  how many new versions to keep
+kept-old-versions 2 ; how many old versions to keep
+version-control t) ; version number the backup files
+#+END_SRC
 *** Convenience
 **** Visit Your Config File
 Since you might re-visit your configuration quite regularly to fiddle around with things, you might want a quick way to open it. 
@@ -185,3 +201,29 @@ The mode-line usually tells you if you have mail. If you do not want this, put t
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables '(display-time-mail-string ""))
 #+END_SRC
+**** Load Average
+The load average time can be displayed. I dont need that.
+#+BEGIN_SRC emacs-lisp
+(setq display-time-default-load-average nil)
+#+END_SRC
+*** Org Mode
+A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
+**** One Notefile to bind them ...  
+I personally like to have one giant notefile for all notes which I can access via keybinding and just put in whatever it is I have to write down. I divide it into a few meaningfull main categories and then create sub-categories as needed in the outline. To bring it up quickly I use:
+#+BEGIN_SRC emacs-lisp
+;; modify filename / -path and keybinding to your liking
+(global-set-key (kbd "<f6>") (lambda() (interactive)(find-file "~/orgfiles/misc.org")))
+#+END_SRC
+**** Org Bullets
+In order to make the Org Mode outline structure with the asteriskes look nicer I use [[https://github.com/sabof/org-bullets][Org Bullets]] and define some individual symbols for the levels 1 to 5.
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+:ensure t
+:init
+(setq org-bullets-bullet-list
+;; any list of outline unicode characters can be enetered here for the different levels. enter them by using C-x 8 RET followed by the unicode number
+'("⁙" "⁘" "∵" "∶" "⋅"))
+:config
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
