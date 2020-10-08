@@ -17,7 +17,7 @@ Also I would like to include more resources about Emacs, so please let me know, 
 ** How to use this config
 Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configuration. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
 This configuration is written in [[https://orgmode.org/][Org Mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
-In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the moste efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarious or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file.
+In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the moste efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarious or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file. If you are reading this on my GitHub page, the headlines which are commented out will not be displayed. It makes more sense to get this file and open it in your Emacs.
 *** COMMENT What goes in your init.el 
 #+BEGIN_SRC emacs-lisp
 
@@ -54,7 +54,7 @@ In the following you find a lot of config suggestions, which you could copy to y
 *** Tips & Tricks
 If you ever want to comment out a whole codeblock for a particular part of your config you can use the command ~C-c ;~ on a subtree so everything under this will not get compiled by org babel.
 *** General Settings 
-**** Fixes for MacOS
+**** COMMENT Fixes for MacOS
 If you are using a mac you might need this to make emacs work properly. Maybe not any more, maybe not on your system. If you are using MacOS and have problems, try it or do some research online.
 #+BEGIN_SRC emacs-lisp
   (exec-path-from-shell-initialize)
