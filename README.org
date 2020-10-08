@@ -4,6 +4,8 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - [[https://emacs-berlin.org/][the Emacs Berlin Meetup]]
 - [[https://github.com/gjstein][Gregory J Stein]]
 - [[https://cestlaz.github.io][Mike Zamansky]] 
+- [[https://sachachua.com/blog/][Sacha Chua]]
+- [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][Rainer König]]
 - [[https://www.youtube.com/channel/UCDEtZ7AKmwS0_GNJog01D2g][Uncle Daves Youtube Channel]]
 - [[https://www.youtube.com/watch?v=FRu8SRWuUko][Mohammed Ismail Ansari's Emacs Config in 24 min]]
 - [[https://fransiska.github.io/emacs/2017/08/21/web-development-in-emacs][Franziskas WebDev Setup]]
@@ -11,11 +13,12 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - ... and lots of others :)
 - and of course all the great documentation which I will do my best to link to in the appropriate places of this config
 If anyone feels like contributing to this config it would be great! I am sure there is a lot in it which can be done better. Please let me know.
+Also I would like to include more resources about Emacs, so please let me know, what might make sense.
 ** How to use this config
 Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configuration. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
-This configuration is written in [[https://orgmode.org/][Org mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
-In order to make this work you will need to place the following in your ~init.el~.
-*** What goes in your init.el 
+This configuration is written in [[https://orgmode.org/][Org Mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
+In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the moste efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarious or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file.
+*** COMMENT What goes in your init.el 
 #+BEGIN_SRC emacs-lisp
 
 ;; require and initialize emacs package manager package
