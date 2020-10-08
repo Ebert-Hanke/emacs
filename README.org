@@ -7,6 +7,8 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - [[https://cestlaz.github.io][Mike Zamansky]] 
 - [[https://sachachua.com/blog/][Sacha Chua]]
 - [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][Rainer König]]
+- [[http://pragmaticemacs.com/][Pragmatic Emacs]]
+- [[http://therandymon.com/woodnotes/emacs-for-writers/emacs-for-writers.html][The Woodnotes Guide to Emacs for Writers]]
 - [[https://www.youtube.com/channel/UCDEtZ7AKmwS0_GNJog01D2g][Uncle Daves Youtube Channel]]
 - [[https://www.youtube.com/watch?v=FRu8SRWuUko][Mohammed Ismail Ansari's Emacs Config in 24 min]]
 - [[https://fransiska.github.io/emacs/2017/08/21/web-development-in-emacs][Franziskas WebDev Setup]]
@@ -216,8 +218,8 @@ When we diminish a mode, we are saying we want it to continue doing its work for
 So just define what becomes a silent "night worker".
 
 #+BEGIN_SRC emacs-lisp 
-    (use-package diminish
-      :ensure t
+(use-package diminish
+:ensure t
       :init
       (diminish 'which-key-mode)
       (diminish 'beacon-mode)
@@ -229,7 +231,7 @@ So just define what becomes a silent "night worker".
       (diminish 'flyspell-mode)
       (diminish 'flycheck-mode)
       (diminish 'rainbow-delimiters-mode)
-)
+      )
 #+END_SRC
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
