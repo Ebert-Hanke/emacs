@@ -245,7 +245,7 @@ Since you will use a lot of emacs-lisp codeblocks in this config you might want 
                '("el" . "src emacs-lisp"))
 #+END_SRC
 **** Keybindings & Settings
-Keybindings in Emacs are absolutely flexible, so always pick what works for you. Some functions you might use often dont come with predefined keybindings so just choose some. Also there is a lot of setting variables you can use to fine tune the way Org Mode should work for you. Here are some.
+Keybindings in Emacs are absolutely flexible, so always pick what works for you. Some functions you might use often dont come with predefined keybindings so just choose some. Also there is a lot of setting variables you can use to fine tune the way Org Mode should work for you. Here are some. If you are not sure what a variable does bring up the documentation in Emacs with ~C-h v~ and then search for its name.
 #+Begin_SRC emacs-lisp
 ;; keybinding for linking things in .org documents
 (define-key global-map "\C-cl" 'org-store-link)
@@ -264,8 +264,27 @@ Org Mode provides you with a nice way to track time which I use a lot to keep tr
 ;; adjust time format for clocksum in column view
 (setq org-duration-format 'h:mm)
 (setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
-;; clock into drawer CLOCKING
+;; put all the clock entries into a drawer called CLOCKING
 (setq org-clock-into-drawer "CLOCKING")
 #+END_SRC
+To get the most out of timetracking have a look at working with [[https://orgmode.org/manual/Tables.html][Tables]] in Org Mode. As a starting point here is some code you might find usefull:
 
+#+BEGIN: clocktable :block untilnow :scope tree :header "#+NAME: mytimetrack\n" 
+#+NAME: mytimetrack
+| Headline         | Time    |       |
+|------------------+---------+-------|
+| *Total time*     | *16:21* |       |
+|------------------+---------+-------|
+| My fancy Project | 16:21   |       |
+| \_  Timetrack    |         | 16:21 |
+#+END: clocktable
+
+This will sum up all your clock entries of the defined scope. If you want to update it press ~C-c C-x C-u~.
+
+| Time Budget | Time Remaining |
+|-------------+----------------|
+|       40:00 |          23:39 |
+#+TBLFM: $2=$1-(remote(mytimetrack, @4$3));U
+
+This now will substract the summed up time from a "time budget" you specify. I often find this usefull for keeping track of projects. You could also easily calculate stuff in like your rate per hour or the like. For more information on [[https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Spreadsheet Functions]] in Org Mode have a look here.
 
