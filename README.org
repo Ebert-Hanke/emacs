@@ -206,6 +206,31 @@ The load average time can be displayed. I dont need that.
 #+BEGIN_SRC emacs-lisp
 (setq display-time-default-load-average nil)
 #+END_SRC
+*** Diminish Mode
+Emacs will show you all the active modes in the mode line which you might not want since it gets cluttered. To adress this Will Mengarini created [[https://github.com/emacsmirror/diminish][Diminish Mode]]. 
+
+#+BEGIN_QUOTE
+When we diminish a mode, we are saying we want it to continue doing its work for us, but we no longer want to be reminded of it. It becomes a night worker, like a janitor; it becomes an invisible man; it remains a component, perhaps an important one, sometimes an indispensable one, of the mechanism that maintains the day-people's world, but its place in their thoughts is diminished, usually to nothing. As we grow old we diminish more and more such thoughts, such people, usually to nothing. -- Will Mengarini
+#+END_QUOTE
+
+So just define what becomes a silent "night worker".
+
+#+BEGIN_SRC emacs-lisp 
+    (use-package diminish
+      :ensure t
+      :init
+      (diminish 'which-key-mode)
+      (diminish 'beacon-mode)
+      (diminish 'visual-line-mode)
+      (diminish 'autopair-mode)
+      (diminish 'projectile-mode)    
+      (diminish 'helm-mode)
+      (diminish 'company-mode)
+      (diminish 'flyspell-mode)
+      (diminish 'flycheck-mode)
+      (diminish 'rainbow-delimiters-mode)
+)
+#+END_SRC
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
 **** one Notefile to bind them ...  
@@ -286,5 +311,13 @@ This will sum up all your clock entries of the defined scope. If you want to upd
 |       40:00 |          23:39 |
 #+TBLFM: $2=$1-(remote(mytimetrack, @4$3));U
 
-This now will substract the summed up time from a "time budget" you specify. I often find this usefull for keeping track of projects. You could also easily calculate stuff in like your rate per hour or the like. For more information on [[https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Spreadsheet Functions]] in Org Mode have a look here.
+This now will substract the summed up time from a "time budget" you specify. I often find this usefull for keeping track of projects. You could also easily calculate other stuff in, like your rate per hour or the like. For more information on [[https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Spreadsheet Functions]] in Org Mode have a look here. To update a table like this put the cursor on its formula and press ~C-c C-c~.
+
+**** ToDo States
+You can use [[https://www.orgmode.org/manual/TODO-Items.html][ToDo Items]] in Org Mode and you can specify the states they can have as well as the corresponding shortcuts to set them like this:
+#+BEGIN_SRC emacs-lisp
+;;; org mode states (TODO changed to ACTIVE)
+(setq org-todo-keywords
+'((sequence "TODO(t)" "☛ ACTIVE(t)" "⚑ WAITING(w)" "|" "✔ DONE(d)" "✘ CANCELED(c)")))
+#+END_SRC
 
