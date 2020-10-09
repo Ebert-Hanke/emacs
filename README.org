@@ -236,6 +236,27 @@ So just define what becomes a silent "night worker".
       )
       ;; modify according to the modes which you actually use
 #+END_SRC
+*** Usability
+**** Which Key
+[[https://github.com/justbur/emacs-which-key][Which Key]] gives you a popup with possible completions of the command you started. Very usefull if you dont remember an exact keybinding.
+#+BEGIN_SRC emacs-lisp
+;; which key
+(use-package which-key
+	:ensure t 
+	:config
+	(which-key-mode))
+#+END_SRC
+**** Dired 
+Emacs comes with a great file manager called [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]. To make this work better to taste I customize the following:
+#+BEGIN_SRC emacs-lisp
+;; reuse the dired buffer when you open something by pressing 'a'
+(put 'dired-find-alternate-file 'disabled nil)
+;; if you have a horizontal split open you can copy from one to the other
+(setq dired-dwim-target t)
+#+END_SRC
+**** Ivy, Counsel, Swiper
+https://github.com/abo-abo/swiper
+Many times you will search for stuff. To have an even better search 
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
 **** one Notefile to bind them ...  
@@ -335,7 +356,27 @@ Here are some usability things I personally like to have. Just use what you like
 (when window-system (global-hl-line-mode t))
 ;; link matching parentheses
 (show-paren-mode 1)
+;; highlight columns / html elements in web-mode
+(setq web-mode-enable-current-column-highlight t)
+(setq web-mode-enable-current-element-highlight t)
 #+END_SRC
+**** Terminal / Shell
+You will want a shell in Emacs. There is different ways to do this and all have their pros and cons. Some [[https://masteringemacs.org/article/running-shells-in-emacs-overview][more information]] about this here. 
+#+BEGIN_SRC emacs-lisp
+ (defvar my-term-shell "/bin/zsh") ; path to your shell of choice
+ (defadvice ansi-term (before force-bash)
+   (interactive (list my-term-shell)))
+ (ad-activate 'ansi-term)
+ (global-set-key (kbd "C-c t") 'ansi-term) ; keybinding to open ansi-term
+#+END_SRC
+If you want more than one instance of ansi-term you can use this:
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-term
+    :ensure t
+    :config
+    (setq multi-term-program "/bin/zsh")) ; specify your shell
+#+END_SRC
+
 **** Evil Mode
 All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-evil/evil][Evil Mode]] brings [[https://www.vim.org/][Vim]] modes and movements to Emacs.
 #+BEGIN_SRC emacs-lisp
@@ -374,7 +415,7 @@ Braces are colored according to nesting structure so you keep track of which is 
   )
 #+END_SRC
 **** Expand Region
-Easy selection of semantic regions in code.
+Easy selection of semantic regions in code. [[https://github.com/magnars/expand-region.el][Expand a Region]] in your code.
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
     :ensure t
