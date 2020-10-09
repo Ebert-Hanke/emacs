@@ -1,4 +1,4 @@
-* One Emacs Config 
+* Yet Another Emacs Config 
 ** Thanks!
 I am by no means an expert on Emacs and everything I know I slowly cobbled together from different resources. In particular there are some which helped me a lot in figuring some things out:
 
