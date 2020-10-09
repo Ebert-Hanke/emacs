@@ -1,6 +1,6 @@
 * Yet Another Emacs Config 
 ** Thanks!
-I am by no means an expert on Emacs and everything I know I slowly cobbled together from different resources. In particular there are some which helped me a lot in figuring some things out:
+I am by no means an expert on Emacs. Everything I know I slowly cobbled together from different resources. There is a lot of good stuff out there about Emacs and many great people devoted lots of energy to compiling all that knowledge. Many of the things you find in this file are taken from one of these resources or based upon it so I want to give due credit and say thank you! 
 
 - [[https://emacs-berlin.org/][the Emacs Berlin Meetup]]
 - [[https://github.com/gjstein][Gregory J Stein]]
@@ -16,6 +16,8 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - [[https://www.masteringemacs.org/][Mastering Emacs]]
 - ... and lots of others :)
 - and of course all the great documentation which I will do my best to link to in the appropriate places of this config
+- obviously this list cant be complete without thanking [[https://en.wikipedia.org/wiki/Richard_Stallman][Richard Stallman]] (together with [[https://en.wikipedia.org/wiki/Guy_L._Steele_Jr][Guy L. Steele Jr.]] and others) for [[https://www.gnu.org/software/emacs/][GNU Emacs]] itself 
+- and because its fun: [[https://www.youtube.com/watch?v=Gnnb6sjgk3A][the church of Emacs]]
 
 If anyone feels like contributing to this config it would be great! I am sure there is a lot in it which can be done better. Please let me know.
 
