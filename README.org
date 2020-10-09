@@ -376,7 +376,6 @@ If you want more than one instance of ansi-term you can use this:
     :config
     (setq multi-term-program "/bin/zsh")) ; specify your shell
 #+END_SRC
-
 **** Evil Mode
 All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-evil/evil][Evil Mode]] brings [[https://www.vim.org/][Vim]] modes and movements to Emacs.
 #+BEGIN_SRC emacs-lisp
@@ -422,4 +421,114 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
     :config
     (global-set-key (kbd "C-=") 'er/expand-region)
     )
+#+END_SRC
+**** Markdown Mode
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+#+END_SRC
+**** Web Mode
+#+BEGIN_SRC emacs-lisp
+(use-package web-mode
+  :ensure t
+  :mode (("\\.erb\\'" . web-mode)
+	 ("\\.mustache\\'" . web-mode)
+	 ("\\.html?\\'" . web-mode)
+         ("\\.php\\'" . web-mode)
+         ("\\.vue\\'" . web-mode))
+  :config (progn
+            (setq web-mode-markup-indent-offset 2
+		  web-mode-css-indent-offset 2
+              web-mode-code-indent-offset 2)))
+#+END_SRC
+**** Emmet
+#+BEGIN_SRC emacs-lisp
+(use-package emmet-mode
+:ensure t
+:hook (web-mode css-mode)
+)
+#+END_SRC
+**** JS2 Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :init
+    (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+    :config
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    (setq js2-basic-offset 2)
+    (setq indent-tabs-mode nil)
+    )
+#+END_SRC
+**** JSON Mode
+#+begin_src emacs-lisp
+(use-package json-mode
+:ensure t
+)
+#+end_src
+**** LSP Mode
+LSP servers need to be installed > [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP servers]]
+
+currently used LSPs:
+- [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][JavaScript / TypeScript]]
+- [[https://emacs-lsp.github.io/lsp-mode/page/lsp-vetur/][Vue]]
+- [[https://emacs-lsp.github.io/lsp-mode/page/lsp-json/][JSON]]
+
+#+BEGIN_SRC emacs-lisp
+;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+(setq lsp-keymap-prefix "C-l")
+
+(use-package lsp-mode
+    :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+            (web-mode . lsp)
+            (js2-mode . lsp)            
+            (js-mode . lsp)            
+            (json-mode . lsp)            
+;; if you want which-key integration
+            (lsp-mode . lsp-enable-which-key-integration))
+    :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+;; if you are helm user
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+;;(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;; optional if you want which-key integration
+(use-package which-key
+    :config
+    (which-key-mode))
+#+END_SRC
+**** Prettier
+prettier must be installed with `npm install -g prettier`
+#+BEGIN_SRC emacs-lisp
+(use-package prettier-js
+:ensure t
+)
+(require 'prettier-js)
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
+(setq prettier-js-args '(
+  "--single-quote" "false"
+  "--prose-wrap" "never"
+))
+(defun enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+      (funcall (cdr my-pair)))))
+(add-hook 'web-mode-hook #'(lambda ()
+                            (enable-minor-mode
+                             '("\\.jsx?\\'" . prettier-js-mode))))
 #+END_SRC
