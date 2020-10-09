@@ -346,7 +346,7 @@ All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-e
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up))
 #+END_SRC
 **** Relative Line Numbers
-Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have relative line numbers.
+Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have relative line numbers. Check [[https://github.com/xcodebuild/nlinum-relative][nlinum-relative]] for details.
 #+BEGIN_SRC emacs-lisp
 (use-package nlinum-relative
 :ensure t
@@ -356,4 +356,29 @@ Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have re
     (add-hook 'prog-mode-hook 'nlinum-relative-mode)
     (add-hook 'web-mode-hook 'nlinum-relative-mode))
 #+END_SRC
-
+**** Autopair
+If you type one brace or quote the other half shalt magically appear by the power of [[https://github.com/joaotavora/autopair][Autopair]].
+#+BEGIN_SRC emacs-lisp
+(use-package autopair
+:ensure t
+:config
+(autopair-global-mode))
+#+END_SRC
+**** Rainbow Delimiters
+Braces are colored according to nesting structure so you keep track of which is what. Check [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] for more details.
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  )
+#+END_SRC
+**** Expand Region
+Easy selection of semantic regions in code.
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :config
+    (global-set-key (kbd "C-=") 'er/expand-region)
+    )
+#+END_SRC
