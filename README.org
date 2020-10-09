@@ -1,4 +1,4 @@
-* Emacs config 
+* One Emacs Config 
 ** Thanks!
 I am by no means an expert on Emacs and everything I know I slowly cobbled together from different resources. In particular there are some which helped me a lot in figuring some things out:
 
@@ -13,6 +13,7 @@ I am by no means an expert on Emacs and everything I know I slowly cobbled toget
 - [[https://www.youtube.com/watch?v=FRu8SRWuUko][Mohammed Ismail Ansari's Emacs Config in 24 min]]
 - [[https://fransiska.github.io/emacs/2017/08/21/web-development-in-emacs][Franziskas WebDev Setup]]
 - [[https://www.youtube.com/watch?v=I28jFkpN5Zk][Arjen Wiersma's GNU Emacs configuration for programming]]
+- [[https://www.masteringemacs.org/][Mastering Emacs]]
 - ... and lots of others :)
 - and of course all the great documentation which I will do my best to link to in the appropriate places of this config
 
@@ -188,7 +189,6 @@ So this one is a bit more involved and really more an aesthetical choice but if 
 #+END_SRC
 After changes it might be necessary to run ~M-x spaceline-compile~
 
-
 *** Mode Line
 You can customize a lot of the info which is displayes in your mode-line. Here are some things to pick from or extend.
 **** Time / Time Format
@@ -232,6 +232,7 @@ So just define what becomes a silent "night worker".
       (diminish 'flycheck-mode)
       (diminish 'rainbow-delimiters-mode)
       )
+      ;; modify according to the modes which you actually use
 #+END_SRC
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
@@ -321,5 +322,36 @@ You can use [[https://www.orgmode.org/manual/TODO-Items.html][ToDo Items]] in Or
 ;;; org mode states (TODO changed to ACTIVE)
 (setq org-todo-keywords
 '((sequence "TODO(t)" "☛ ACTIVE(t)" "⚑ WAITING(w)" "|" "✔ DONE(d)" "✘ CANCELED(c)")))
+#+END_SRC
+
+*** Code
+Many of you will use Emacs to write code. Depending on what you do, different packages and options will make sense. Since this is based on my config and the things I do (building stuff for the web), there is much left out. Hopefully others feel like contributing some starting points for other languages, environments and workflows.
+**** Basic Stuff
+Here are some usability things I personally like to have. Just use what you like and need.
+#+BEGIN_SRC emacs-lisp
+;; highlight your active line in all modes
+(when window-system (global-hl-line-mode t))
+;; link matching parentheses
+(show-paren-mode 1)
+#+END_SRC
+**** Evil Mode
+All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-evil/evil][Evil Mode]] brings [[https://www.vim.org/][Vim]] modes and movements to Emacs.
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+:ensure t
+:config
+(evil-mode 1)
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up))
+#+END_SRC
+**** Relative Line Numbers
+Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have relative line numbers.
+#+BEGIN_SRC emacs-lisp
+(use-package nlinum-relative
+:ensure t
+    :config
+    ;; define in which modes youd like line numbers
+    (nlinum-relative-setup-evil)
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode)
+    (add-hook 'web-mode-hook 'nlinum-relative-mode))
 #+END_SRC
 
