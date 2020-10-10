@@ -247,17 +247,16 @@ So just define what becomes a silent "night worker".
 	(which-key-mode))
 #+END_SRC
 **** Dired 
-Emacs comes with a great file manager called [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]. To make this work better to taste I customize the following:
+Emacs comes with a great file manager called [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]. To make this work better to my taste I customize the following:
 #+BEGIN_SRC emacs-lisp
 ;; reuse the dired buffer when you open something by pressing 'a'
 (put 'dired-find-alternate-file 'disabled nil)
 ;; if you have a horizontal split open you can copy from one to the other
 (setq dired-dwim-target t)
 #+END_SRC
-If Dired is not to your taste and you prefer something with a folder tree you might want to check out [[https://github.com/Alexander-Miller/treemacs][Treemacs]].
+If Dired is not to your thing and you prefer something with a folder tree you might want to check out [[https://github.com/Alexander-Miller/treemacs][Treemacs]].
 **** Ivy, Counsel, Swiper
-https://github.com/abo-abo/swiper
-Many times you will search for stuff. To have an even better search:
+Many times you will search for stuff. To have an even better search you can use [[https://github.com/abo-abo/swiper][Swiper]]:
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
   :ensure t
@@ -537,7 +536,7 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
 )
 #+end_src
 **** Flycheck
-On the fly syntac checking for many languages. Check out the [[https://www.flycheck.org/en/latest/user/quickstart.html][Quickstart Guide]] to set it up for your usecase.
+On the fly syntax checking for many languages. Check out the [[https://www.flycheck.org/en/latest/user/quickstart.html][Quickstart Guide]] to set it up for your usecase.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
@@ -584,7 +583,7 @@ currently used LSPs:
     (which-key-mode))
 #+END_SRC
 **** Prettier
-prettier must be installed with `npm install -g prettier`
+prettier must be installed with ~npm install -g prettier~
 #+BEGIN_SRC emacs-lisp
 (use-package prettier-js
 :ensure t
