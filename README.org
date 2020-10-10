@@ -254,9 +254,59 @@ Emacs comes with a great file manager called [[https://www.gnu.org/software/emac
 ;; if you have a horizontal split open you can copy from one to the other
 (setq dired-dwim-target t)
 #+END_SRC
+If Dired is not to your taste and you prefer something with a folder tree you might want to check out [[https://github.com/Alexander-Miller/treemacs][Treemacs]].
 **** Ivy, Counsel, Swiper
 https://github.com/abo-abo/swiper
-Many times you will search for stuff. To have an even better search 
+Many times you will search for stuff. To have an even better search:
+#+BEGIN_SRC emacs-lisp
+(use-package swiper
+  :ensure t
+  :bind ("C-s" . 'swiper))
+#+END_SRC
+**** Helm 
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :ensure t
+    :bind
+    ("C-x C-f" . 'helm-find-files)
+    ("C-x C-b" . 'helm-buffers-list)
+    ("M-x" . 'helm-M-x)
+    ("C-x r b" . 'helm-bookmarks)
+    :init
+    (helm-mode 1))
+
+  (require 'helm-config)
+#+END_SRC 
+***** Helm Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-projectile
+    :ensure t
+    :config
+    (helm-projectile-on))
+#+END_SRC
+***** Helm Tramp
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-tramp
+    :ensure t
+    :config
+    (setq tramp-default-method "ssh")
+    (define-key global-map (kbd "C-c s") 'helm-tramp)
+    (setq make-backup-files nil)
+    (setq create-lockfiles nil)
+    )
+#+END_SRC
+***** Helm Swiper
+#+begin_src emacs-lisp
+(use-package swiper-helm
+:ensure t)
+#+end_src
+**** Ace Window
+You can split windows in Emacs with =C-x 3= (horizontally) and =C-x 2= (vertically). To make a window full-size again use =C-x 1=. [[https://github.com/abo-abo/ace-window][Ace Window]] makes changing between open windows fast and easy. 
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :bind ("M-o" . ace-window))
+#+END_SRC
 *** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found usefull to configure.
 **** one Notefile to bind them ...  
@@ -376,6 +426,21 @@ If you want more than one instance of ansi-term you can use this:
     :config
     (setq multi-term-program "/bin/zsh")) ; specify your shell
 #+END_SRC
+**** Magit
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
+**** Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :init
+    (projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+ (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(setq projectile-switch-project-action #'projectile-dired))
+  (global-set-key (kbd "<f5>") 'projectile-compile-project)
+#+END_SRC
 **** Evil Mode
 All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-evil/evil][Evil Mode]] brings [[https://www.vim.org/][Vim]] modes and movements to Emacs.
 #+BEGIN_SRC emacs-lisp
@@ -471,6 +536,14 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
 :ensure t
 )
 #+end_src
+**** Flycheck
+On the fly syntac checking for many languages. Check out the [[https://www.flycheck.org/en/latest/user/quickstart.html][Quickstart Guide]] to set it up for your usecase.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init 
+    (global-flycheck-mode))
+#+END_SRC
 **** LSP Mode
 LSP servers need to be installed > [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP servers]]
 
