@@ -426,10 +426,12 @@ If you want more than one instance of ansi-term you can use this:
     (setq multi-term-program "/bin/zsh")) ; specify your shell
 #+END_SRC
 **** Magit
+I am assuming that you use [[https://git-scm.com/][Git]] (if not you should consider it, actually also for non-code writing). One of my favorite things in Emacs is [[https://magit.vc/][Magit]] - "A Git Porcelain inside Emacs" ... and it is really amazing. I think it works somewhat intuitively and also gives you a lot of help inside, but the documentation is also really good, so check it out and you should be fine.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
 **** Projectile
+In order to change quickly between your different projects (and also do a lot of other cool things in project scope) you can use [[https://github.com/bbatsov/projectile][Projectile]]. Check out the extensive [[https://projectile.mx/][Documentation]] to learn more about its functionality.  
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
@@ -487,6 +489,7 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
     )
 #+END_SRC
 **** Markdown Mode
+If possibel nowadays I use Org but Markdown also comes in handy a lot of times and then you might want to use [[https://github.com/jrblevin/markdown-mode][Markdown Mode]].
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
   :ensure t
@@ -497,6 +500,7 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 **** Web Mode
+[[http://web-mode.org/][Web Mode]] is "an autonomous emacs major-mode for editing web templates" and if you are coding anything for the web it will be quite usefull. It gives you proper semantic structure, syntax highlighting and more. I personally also prefer it for [[https://vuejs.org/][Vue.js]]. There is also a mode for Vue but that didnt really work for me.
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
   :ensure t
@@ -511,6 +515,7 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
               web-mode-code-indent-offset 2)))
 #+END_SRC
 **** Emmet
+[[https://www.emmet.io/][Emmet]] makes your life so much easier (and writing code so much quicker) if you are doing web development. It can create many lines of nested markup with classes and all in no time. Have a look at the documentation how it works.
 #+BEGIN_SRC emacs-lisp
 (use-package emmet-mode
 :ensure t
