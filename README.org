@@ -352,7 +352,7 @@ Key bindings in Emacs are absolutely flexible, so always pick what works for you
 ;; keybinding to bring up the agenda view
 (define-key global-map "\C-ca" 'org-agenda)
 ;; add a timestamp when a todo is changed to done
-(setq org-log-done time)
+(setq org-log-done t)
 ;; soft wrap lines and indent for org mode
 (with-eval-after-load 'org       
   (setq org-startup-indented t) 
