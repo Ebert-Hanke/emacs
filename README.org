@@ -428,7 +428,11 @@ If you want more than one instance of ansi-term you can use this:
 **** Magit
 I am assuming that you use [[https://git-scm.com/][Git]] (if not you should consider it, actually also for non-code writing). One of my favorite things in Emacs is [[https://magit.vc/][Magit]] - "A Git Porcelain inside Emacs" ... and it is really amazing. I think it works somewhat intuitively and also gives you a lot of help inside, but the documentation is also really good, so check it out and you should be fine.
 #+BEGIN_SRC emacs-lisp
+(use-package magit
+:ensure t
+:config
 (global-set-key (kbd "C-x g") 'magit-status)
+)
 #+END_SRC
 **** Projectile
 In order to change quickly between your different projects (and also do a lot of other cool things in project scope) you can use [[https://github.com/bbatsov/projectile][Projectile]]. Check out the extensive [[https://projectile.mx/][Documentation]] to learn more about its functionality.  
