@@ -1,5 +1,7 @@
+#+STARTUP: overview
 * Yet Another Emacs Config 
-** Thanks!
+This is my attempt to help new people start using Emacs for writing and coding. I have been using Emacs for some years now and this is what I have learned so far. I hope you enjoy Emacs as much as I do!
+* Thanks!
 I am by no means an expert on Emacs. Everything I know I slowly cobbled together from different resources. There is a lot of good stuff out there about Emacs and many great people devoted lots of energy to compiling all that knowledge. Many of the things you find in this file are taken from one of these resources or based upon it so I want to give due credit and say thank you! 
 
 - [[https://emacs-berlin.org/][the Emacs Berlin Meetup]]
@@ -22,11 +24,11 @@ I am by no means an expert on Emacs. Everything I know I slowly cobbled together
 If anyone feels like contributing to this config it would be great! I am sure there is a lot in it which can be done better. Please let me know.
 
 Also I would like to include more resources about Emacs, so please let me know, what might make sense.
-** How to use this config
+* How to use this config
 Emacs relies on a config file which you find in the ~.emacs.d~ folder in your user folder (Linux & MacOS). In this folder a ~init.el~ file will hold your individual configuration. There is stuff that might be easier to set up in the "Options" menu in Emacs itself. This configurations will then be written by Emacs in your ~init.el~ under the entry ~(custom-set-variables~. Just leave this block as it is.
 This configuration is written in [[https://orgmode.org/][Org Mode]] and uses [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org Babel]] to have Emacs write an actual config file from your org mode config for you.
 In order to make this work you will need to place the following in your ~init.el~. You can see that the next headline has a ~COMMENT~ in front of it, so it will be ignored by Org Babel. This makes sense if you want to make it really easy and just rename this file to ~setup.org~ so it becomes your config file as a whole. This might not be the most efficient in terms of startup times, since a large .org file can take a moment to load. You can toggle comments of org headlines with ~C-c ;~ and I will use this in the config to comment out things which are more meant for specific scenarios or taste. Just comment them back in, if you like to use them, or copy the bits and pieces you want to your own new config file. If you are reading this on my GitHub page, the headlines which are commented out will not be displayed. It makes more sense to get this file and open it in your Emacs.
-*** COMMENT What goes in your init.el 
+** COMMENT What goes in your init.el 
 #+BEGIN_SRC emacs-lisp
 
 ;; require and initialize emacs package manager package
@@ -49,20 +51,20 @@ In order to make this work you will need to place the following in your ~init.el
 (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))
 
 #+END_SRC
-*** Code Blocks in Org Mode
+** Code Blocks in Org Mode
 The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognizable as such for formatting and also for Org Babel it is marked as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
-*** Comments in Emacs Lisp
+** Comments in Emacs Lisp
 Since this config will mostly be written in Org Mode, there will be a lot of explanation and links to further reading material in the prose parts but putting comments in the code blocks themselves is of course always good practice. For the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html][Emacs Lisp Comment Syntax]] have a look here.
-*** Emacs Packages & MELPA
+** Emacs Packages & MELPA
 Additions to the vanilla core of Emacs come in the form of [[https://www.emacswiki.org/emacs/InstallingPackages][Packages]] and can be added from different places, the most relevant being [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. In this config the ~use-package~ macro will be used. For more information on [[https://github.com/jwiegley/use-package][use-package]] check the repository here.
-** Your Config File
+* Your Config File
 Next up on the list is the actual config file which we will call ~setup.org~. If you want to give it another name, just change the reference in the ~init.el~. Since this file will get compiled to ~setup.el~ you want to avoid naming conflicts and not call it ~init.org~. For more information on the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html][Files Emacs uses for Initialization]] have a look here.
 In the following you find a lot of config suggestions, which you could copy to your personal config. The beauty of Emacs is that you can make it the perfect tool for what you want to use it for, so there is obviously no config for every person. This is just meant as a sort of curated list of configurations and packages that you might want to evaluate and modify to your own liking. By doing this you hopefully find your way to making Emacs just perfect for you. 
-** The Bits and Pieces for the Config
-*** Tips & Tricks
+* The Bits and Pieces for the Config
+** Tips & Tricks
 If you ever want to comment out a whole code block for a particular part of your config you can use the command ~C-c ;~ on a subtree so everything under this will not get compiled by org babel.
-*** General Settings 
-**** COMMENT Fixes for MacOS
+** General Settings 
+*** COMMENT Fixes for MacOS
 If you are using a Mac you might need this to make emacs work properly. Maybe not any more, maybe not on your system. If you are using MacOS and have problems, try it or do some research online.
 #+BEGIN_SRC emacs-lisp
   (exec-path-from-shell-initialize)
@@ -79,30 +81,30 @@ If you are using a Mac you might need this to make emacs work properly. Maybe no
 (when (string= system-type "darwin")       
   (setq dired-use-ls-dired nil))
 #+END_SRC
-**** User Info
+*** User Info
 Specify your name and email address if you like.
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Your Full Name")
 (setq user-mail-address "youremail@something.something")
 #+END_SRC
-**** Startup Screen
+*** Startup Screen
 You might not want to see the startup screen every time you start Emacs.
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
 #+END_SRC
-**** Tool Bar, Menu Bar, Scroll Bar
+*** Tool Bar, Menu Bar, Scroll Bar
 Depending on your preference you might not want these parts in the interface. Personally I keep the menu bar around and disable the other two. Comment in the menu bar line to also disable it. You can check if you are in ~window-system~ to only enable certain config bits if it is the case.
 #+BEGIN_SRC emacs-lisp
 (if window-system (scroll-bar-mode -1))
 (tool-bar-mode -1)
 ;;(menu-bar-mode -1)
 #+END_SRC
-**** Yes or No
+*** Yes or No
 Emacs will often ask you stuff. If you don't want to type "yes" or "no", put this instead.
 #+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-**** UTF-8
+*** UTF-8
 You probably want to use [[https://en.wikipedia.org/wiki/UTF-8][UTF-8]] so you should specify it.
 #+BEGIN_SRC emacs-lisp
 (setq locale-coding-system 'utf-8)
@@ -111,18 +113,18 @@ You probably want to use [[https://en.wikipedia.org/wiki/UTF-8][UTF-8]] so you s
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 #+END_SRC
-**** Bell
+*** Bell
 Emacs will sometimes prompt you with an acoustic or visual signal to get your attention. I like to disable this.
 #+BEGIN_SRC emacs-lisp
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 #+END_SRC
-**** Scrolling Behaviour
+*** Scrolling Behaviour
 For a smoother scrolling behavior with the cursor you can add this. For [[https://www.emacswiki.org/emacs/SmoothScrolling][More Info on Scrolling]] check here.
 #+BEGIN_SRC emacs-lisp
 (setq scroll-conservatively 1000)
 #+END_SRC
-**** Backups
+*** Backups
 Emacs can create backup files for you and if you want to use this feature I would recommend some config for it in order to avoid clutter. There is an argument for not having backups because we use Git but I think disk space is cheap and why not just have them. More [[https://www.emacswiki.org/emacs/BackupDirectory][Info about Backups]] can be found here.
 #+BEGIN_SRC emacs-lisp
 ;; specify your backup directory so your backups have a nice home
@@ -135,8 +137,8 @@ kept-new-versions 6 ;  how many new versions to keep
 kept-old-versions 2 ; how many old versions to keep
 version-control t) ; version number the backup files
 #+END_SRC
-*** Convenience
-**** Visit Your Config File
+** Convenience
+*** Visit Your Config File
 Since you might re-visit your configuration quite regularly to fiddle around with things, you might want a quick way to open it. 
 #+BEGIN_SRC emacs-lisp
   (defun config-visit ()
@@ -144,7 +146,7 @@ Since you might re-visit your configuration quite regularly to fiddle around wit
     (find-file "~/.emacs.d/setup.org")) ; the path to your config file
   (global-set-key (kbd "C-c e") 'config-visit) ; you can pick any key binding you like, here I chose "C-c e"
 #+END_SRC
-**** Reload Config
+*** Reload Config
 After you changed stuff in your config you might want to reload it. Keep in mind that some changes need a restart of Emacs so this will not always work.
  #+BEGIN_SRC emacs-lisp
     (defun config-reload ()
@@ -152,7 +154,7 @@ After you changed stuff in your config you might want to reload it. Keep in mind
       (org-babel-load-file (expand-file-name "~/.emacs.d/setup.org"))) ; the path to your config file
     (global-set-key (kbd "C-c u") 'config-reload) ; the key binding to execute this function, here I chose "C-c u"
 #+END_SRC
-**** Kill Current Buffer
+*** Kill Current Buffer
 To have a quick way to kill the current buffer you can use this.
 #+BEGIN_SRC emacs-lisp
   (defun kill-curr-buffer ()
@@ -160,20 +162,20 @@ To have a quick way to kill the current buffer you can use this.
     (kill-buffer (current-buffer)))
   (global-set-key (kbd "C-x k") 'kill-curr-buffer) ; chose any key binding you like, I use "C-x k"
 #+END_SRC
-*** Aesthetics
-**** Color Themes
+** Aesthetics
+*** Color Themes
 There is a wide variety of color themes you can choose from and this is totally up to your own preference. I personally tried different things but keep coming back to the almighty [[https://github.com/bbatsov/zenburn-emacs][Zenburn]] by [[https://github.com/jnurmine][Jani Nurminen]] so I give this as a starting point. Check the link above on different ways to install it. The easiest might be ~M-x package-install zenburn-theme~ from Emacs directly. To automatically load it on startup put this in your config:
 #+begin_src emacs-lisp
 (load-theme 'zenburn t)
 #+end_src
-**** Fonts 
+*** Fonts 
 There are lots of great fonts to choose from. Here are some recommendations which might be more aimed at writing code. If you want to use Emacs for writing text you might want to choose something else unless you like writing in a monospaced font (as I do). Personally I use Monoid (more specifically Monoisome).
 - [[https://larsenwork.com/monoid/][Monoid]]
 - [[https://github.com/tonsky/FiraCode][Fira Code]]
 - [[https://www.levien.com/type/myfonts/inconsolata.html][Inconsolata]]
 - [[https://github.com/adobe-fonts/source-code-pro][Source Code Pro]]
 Once you installed the font of your desire on your system (or picked any already installed font on your system), you can set it via the menu bar ~Options -> Set Default Font~ and then ~Options -> Save Options~. If you have disabled the menu bar (see above) you can still use the GUI picker by doing ~M-x menu-set-font~.
-**** Spaceline
+*** Spaceline
 So this one is a bit more involved and really more an aesthetical choice but if you like to have a different mode-line (the line below which gives you all sorts of usefull information) then you could use this mode-line from [[https://www.spacemacs.org/][Spacemacs]] (which is an Emacs distribution). You find all the info about [[https://github.com/TheBB/spaceline][Spaceline]] and how to configure it here. As a starting point this is what I use at the moment:
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
@@ -191,26 +193,26 @@ So this one is a bit more involved and really more an aesthetical choice but if 
 #+END_SRC
 After changes it might be necessary to run ~M-x spaceline-compile~
 
-*** Mode Line
+** Mode Line
 You can customize a lot of the info which is displayes in your mode-line. Here are some things to pick from or extend.
-**** Time / Time Format
+*** Time / Time Format
 I like a clock in the mode-line and I like 24h format with date.
 #+BEGIN_SRC emacs-lisp
 (setq display-time-24hr-format t)
 (setq display-time-format "%H:%M / %d %b")
 (display-time-mode 1)
 #+END_SRC
-**** Mail
+*** Mail
 The mode-line usually tells you if you have mail. If you do not want this, put the following.
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables '(display-time-mail-string ""))
 #+END_SRC
-**** Load Average
+*** Load Average
 The load average time can be displayed. I don't need that.
 #+BEGIN_SRC emacs-lisp
 (setq display-time-default-load-average nil)
 #+END_SRC
-*** Diminish Mode
+** Diminish Mode
 Emacs will show you all the active modes in the mode line which you might not want since it gets cluttered. To address this Will Mengarini created [[https://github.com/emacsmirror/diminish][Diminish Mode]]. 
 
 #+BEGIN_QUOTE
@@ -236,8 +238,8 @@ So just define what becomes a silent "night worker".
       )
       ;; modify according to the modes which you actually use
 #+END_SRC
-*** Usability
-**** Which Key
+** Usability
+*** Which Key
 [[https://github.com/justbur/emacs-which-key][Which Key]] gives you a pop up with possible completions of the command you started. Very useful if you don't remember an exact key binding.
 #+BEGIN_SRC emacs-lisp
 ;; which key
@@ -246,7 +248,7 @@ So just define what becomes a silent "night worker".
 	:config
 	(which-key-mode))
 #+END_SRC
-**** Dired 
+*** Dired 
 Emacs comes with a great file manager called [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]. To make this work better to my taste I customize the following:
 #+BEGIN_SRC emacs-lisp
 ;; reuse the dired buffer when you open something by pressing 'a'
@@ -255,14 +257,14 @@ Emacs comes with a great file manager called [[https://www.gnu.org/software/emac
 (setq dired-dwim-target t)
 #+END_SRC
 If Dired is not to your thing and you prefer something with a folder tree you might want to check out [[https://github.com/Alexander-Miller/treemacs][Treemacs]].
-**** Ivy, Counsel, Swiper
+*** Ivy, Counsel, Swiper
 Many times you will search for stuff. To have an even better search you can use [[https://github.com/abo-abo/swiper][Swiper]]:
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
   :ensure t
   :bind ("C-s" . 'swiper))
 #+END_SRC
-**** Helm 
+*** Helm 
 #+BEGIN_SRC emacs-lisp
   (use-package helm
     :ensure t
@@ -276,14 +278,14 @@ Many times you will search for stuff. To have an even better search you can use 
 
   (require 'helm-config)
 #+END_SRC 
-***** Helm Projectile
+**** Helm Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package helm-projectile
     :ensure t
     :config
     (helm-projectile-on))
 #+END_SRC
-***** Helm Tramp
+**** Helm Tramp
 #+BEGIN_SRC emacs-lisp
   (use-package helm-tramp
     :ensure t
@@ -294,27 +296,27 @@ Many times you will search for stuff. To have an even better search you can use 
     (setq create-lockfiles nil)
     )
 #+END_SRC
-***** Helm Swiper
+**** Helm Swiper
 #+begin_src emacs-lisp
 (use-package swiper-helm
 :ensure t)
 #+end_src
-**** Ace Window
+*** Ace Window
 You can split windows in Emacs with =C-x 3= (horizontally) and =C-x 2= (vertically). To make a window full-size again use =C-x 1=. [[https://github.com/abo-abo/ace-window][Ace Window]] makes changing between open windows fast and easy. 
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :ensure t
     :bind ("M-o" . ace-window))
 #+END_SRC
-*** Org Mode
+** Org Mode
 A great thing to use with Emacs is Org Mode. I use it for all my writing, project management, time keeping, habit tracking, note taking, documentation and - of course - this config. Check [[https://orgmode.org/manual/index.html][the Org Manual]] or also [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][the great video series by Rainer König]]. In the following you find some stuff I have found useful to configure.
-**** one Note File to bind them ...  
+*** one Note File to bind them ...  
 I personally like to have one giant note file for all notes which I can access via key binding and just put in whatever it is I have to write down. I divide it into a few meaningful main categories and then create sub-categories as needed in the outline. To bring it up quickly I use:
 #+BEGIN_SRC emacs-lisp
 ;; modify filename / -path and keybinding to your liking
 (global-set-key (kbd "<f6>") (lambda() (interactive)(find-file "~/orgfiles/misc.org")))
 #+END_SRC
-**** Org Bullets
+*** Org Bullets
 In order to make the Org Mode outline structure with the asterisks look nicer I use [[https://github.com/sabof/org-bullets][Org Bullets]] and define some individual symbols for the levels 1 to 5.
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
@@ -326,7 +328,7 @@ In order to make the Org Mode outline structure with the asterisks look nicer I 
 :config
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
-**** Paths for Org and Agenda
+*** Paths for Org and Agenda
 For [[https://orgmode.org/manual/Agenda-Views.html][the Org Agenda]] and general Org Mode files, you should specify the paths which should be taken into account.
 #+BEGIN_SRC emacs-lisp
   ;; org directories, please set your own
@@ -335,7 +337,7 @@ For [[https://orgmode.org/manual/Agenda-Views.html][the Org Agenda]] and general
   (setq org-agenda-files 
   '("/filesforagenda" "/morefilesforagenda"))
 #+END_SRC
-**** Expand emacs-lisp code block
+*** Expand emacs-lisp code block
 Since you will use a lot of emacs-lisp code blocks in this config you might want to make your life easier and add a snippet. By typing ~<s~ and pressing ~TAB~ you can quickly create a source code block. If you don't want to specify the emacs-lisp part every time you can add a new shortcut with the following. Type ~<el~ and press ~TAB~ now for an emacs-lisp source code block.
 #+BEGIN_SRC emacs-lisp
 ;; necessary to use quick insertion of code blocks
@@ -344,7 +346,7 @@ Since you will use a lot of emacs-lisp code blocks in this config you might want
 (add-to-list 'org-structure-template-alist
                '("el" . "src emacs-lisp"))
 #+END_SRC
-**** Key bindings & Settings
+*** Key bindings & Settings
 Key bindings in Emacs are absolutely flexible, so always pick what works for you. Some functions you might use often don't come with predefined key bindings so just choose some. Also there is a lot of setting variables you can use to fine tune the way Org Mode should work for you. Here are some. If you are not sure what a variable does bring up the documentation in Emacs with ~C-h v~ and then search for its name.
 #+Begin_SRC emacs-lisp
 ;; keybinding for linking things in .org documents
@@ -358,7 +360,7 @@ Key bindings in Emacs are absolutely flexible, so always pick what works for you
   (setq org-startup-indented t) 
   (add-hook 'org-mode-hook 'visual-line-mode))
 #+END_SRC
-**** Time Tracking
+*** Time Tracking
 Org Mode provides you with a nice way to track time which I use a lot to keep track how many work hours I have spend on a project. Have a look at [[https://orgmode.org/manual/Clocking-Work-Time.html#Clocking-Work-Time][Clocking Work Time]] for the necessary commands you can use. To make this work better for my taste I specify some things.
 #+BEGIN_SRC emacs-lisp
 ;; adjust time format for clocksum in column view
@@ -388,7 +390,7 @@ This will sum up all your clock entries of the defined scope. If you want to upd
 
 This now will subtract the summed up time from a "time budget" you specify. I often find this useful for keeping track of projects. You could also easily calculate other stuff in, like your rate per hour or the like. For more information on [[https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Spreadsheet Functions]] in Org Mode have a look here. To update a table like this put the cursor on its formula and press ~C-c C-c~.
 
-**** ToDo States
+*** ToDo States
 You can use [[https://www.orgmode.org/manual/TODO-Items.html][ToDo Items]] in Org Mode and you can specify the states they can have as well as the corresponding shortcuts to set them like this:
 #+BEGIN_SRC emacs-lisp
 ;;; org mode states (TODO changed to ACTIVE)
@@ -396,9 +398,9 @@ You can use [[https://www.orgmode.org/manual/TODO-Items.html][ToDo Items]] in Or
 '((sequence "TODO(t)" "☛ ACTIVE(t)" "⚑ WAITING(w)" "|" "✔ DONE(d)" "✘ CANCELED(c)")))
 #+END_SRC
 
-*** Code
+** Code
 Many of you will use Emacs to write code. Depending on what you do, different packages and options will make sense. Since this is based on my config and the things I do (building stuff for the web), there is much left out. Hopefully others feel like contributing some starting points for other languages, environments and work flows.
-**** Basic Stuff
+*** Basic Stuff
 Here are some usability things I personally like to have. Just use what you like and need.
 #+BEGIN_SRC emacs-lisp
 ;; highlight your active line in all modes
@@ -409,7 +411,7 @@ Here are some usability things I personally like to have. Just use what you like
 (setq web-mode-enable-current-column-highlight t)
 (setq web-mode-enable-current-element-highlight t)
 #+END_SRC
-**** Terminal / Shell
+*** Terminal / Shell
 You will want a shell in Emacs. There is different ways to do this and all have their pros and cons. Some [[https://masteringemacs.org/article/running-shells-in-emacs-overview][more information]] about this here. 
 #+BEGIN_SRC emacs-lisp
  (defvar my-term-shell "/bin/zsh") ; path to your shell of choice
@@ -425,7 +427,7 @@ If you want more than one instance of ansi-term you can use this:
     :config
     (setq multi-term-program "/bin/zsh")) ; specify your shell
 #+END_SRC
-**** Magit
+*** Magit
 I am assuming that you use [[https://git-scm.com/][Git]] (if not you should consider it, actually also for non-code writing). One of my favorite things in Emacs is [[https://magit.vc/][Magit]] - "A Git Porcelain inside Emacs" ... and it is really amazing. I think it works somewhat intuitively and also gives you a lot of help inside, but the documentation is also really good, so check it out and you should be fine.
 #+BEGIN_SRC emacs-lisp
 (use-package magit
@@ -434,7 +436,7 @@ I am assuming that you use [[https://git-scm.com/][Git]] (if not you should cons
 (global-set-key (kbd "C-x g") 'magit-status)
 )
 #+END_SRC
-**** Projectile
+*** Projectile
 In order to change quickly between your different projects (and also do a lot of other cool things in project scope) you can use [[https://github.com/bbatsov/projectile][Projectile]]. Check out the extensive [[https://projectile.mx/][Documentation]] to learn more about its functionality.  
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -446,7 +448,7 @@ In order to change quickly between your different projects (and also do a lot of
 (setq projectile-switch-project-action #'projectile-dired))
   (global-set-key (kbd "<f5>") 'projectile-compile-project)
 #+END_SRC
-**** Evil Mode
+*** Evil Mode
 All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-evil/evil][Evil Mode]] brings [[https://www.vim.org/][Vim]] modes and movements to Emacs.
 #+BEGIN_SRC emacs-lisp
 (use-package evil
@@ -455,7 +457,7 @@ All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-e
 (evil-mode 1)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up))
 #+END_SRC
-**** Relative Line Numbers
+*** Relative Line Numbers
 Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have relative line numbers. Check [[https://github.com/xcodebuild/nlinum-relative][nlinum-relative]] for details.
 #+BEGIN_SRC emacs-lisp
 (use-package nlinum-relative
@@ -466,7 +468,7 @@ Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have re
     (add-hook 'prog-mode-hook 'nlinum-relative-mode)
     (add-hook 'web-mode-hook 'nlinum-relative-mode))
 #+END_SRC
-**** Autopair
+*** Autopair
 If you type one brace or quote the other half shalt magically appear by the power of [[https://github.com/joaotavora/autopair][Autopair]].
 #+BEGIN_SRC emacs-lisp
 (use-package autopair
@@ -474,7 +476,7 @@ If you type one brace or quote the other half shalt magically appear by the powe
 :config
 (autopair-global-mode))
 #+END_SRC
-**** Rainbow Delimiters
+*** Rainbow Delimiters
 Braces are colored according to nesting structure so you keep track of which is what. Check [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] for more details.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
@@ -483,7 +485,7 @@ Braces are colored according to nesting structure so you keep track of which is 
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
   )
 #+END_SRC
-**** Expand Region
+*** Expand Region
 Easy selection of semantic regions in code. [[https://github.com/magnars/expand-region.el][Expand a Region]] in your code.
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
@@ -492,7 +494,7 @@ Easy selection of semantic regions in code. [[https://github.com/magnars/expand-
     (global-set-key (kbd "C-=") 'er/expand-region)
     )
 #+END_SRC
-**** Markdown Mode
+*** Markdown Mode
 If possible nowadays I use Org but Markdown also comes in handy a lot of times and then you might want to use [[https://github.com/jrblevin/markdown-mode][Markdown Mode]] if you have to edit markdown files. Keep in mind that you can always export markdown from Org Mode.
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
@@ -503,7 +505,7 @@ If possible nowadays I use Org but Markdown also comes in handy a lot of times a
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
-**** Web Mode
+*** Web Mode
 [[http://web-mode.org/][Web Mode]] is "an autonomous emacs major-mode for editing web templates" and if you are coding anything for the web it will be quite useful. It gives you proper semantic structure, syntax highlighting and more. I personally also prefer it for [[https://vuejs.org/][Vue.js]]. There is also a mode for Vue but that didn't really work for me.
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
@@ -518,7 +520,7 @@ If possible nowadays I use Org but Markdown also comes in handy a lot of times a
 		  web-mode-css-indent-offset 2
               web-mode-code-indent-offset 2)))
 #+END_SRC
-**** Emmet
+*** Emmet
 [[https://www.emmet.io/][Emmet]] makes your life so much easier (and writing code so much quicker) if you are doing web development. It can create many lines of nested markup with classes and all in no time. Have a look at the documentation how it works.
 #+BEGIN_SRC emacs-lisp
 (use-package emmet-mode
@@ -526,7 +528,7 @@ If possible nowadays I use Org but Markdown also comes in handy a lot of times a
 :hook (web-mode css-mode)
 )
 #+END_SRC
-**** JS2 Mode
+*** JS2 Mode
 For all your JavaScript concerns [[https://github.com/mooz/js2-mode][js2-mode]] is the right one to use. More details can be found in the [[https://elpa.gnu.org/packages/js2-mode.html][description]] here.
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
@@ -539,14 +541,14 @@ For all your JavaScript concerns [[https://github.com/mooz/js2-mode][js2-mode]] 
     (setq indent-tabs-mode nil)
     )
 #+END_SRC
-**** JSON Mode
+*** JSON Mode
 [[https://github.com/joshwnj/json-mode][json-mode]] gives you syntax highlighting as well as some key bindings for working with JSON files in emacs.
 #+begin_src emacs-lisp
 (use-package json-mode
 :ensure t
 )
 #+end_src
-**** Flycheck
+*** Flycheck
 On the fly syntax checking for many languages. Check out the [[https://www.flycheck.org/en/latest/user/quickstart.html][Quickstart Guide]] to set it up for your use case.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -554,7 +556,7 @@ On the fly syntax checking for many languages. Check out the [[https://www.flych
     :init 
     (global-flycheck-mode))
 #+END_SRC
-**** LSP Mode
+*** LSP Mode
 [[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] was originally developed for [[https://en.wikipedia.org/wiki/Visual_Studio_Code][Visual Studio Code]] by Microsoft and is now an open standard. It is the driving force behind many IDE features in VSCode. If this might be the editor you are switching from to Emacs, fear not – all this (and more) can be had in Emacs. [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] is a LSP client for Emacs and integrates with packages like company, flycheck and projectile. To make it work you need the appropriate [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP Servers]] installed on your system. For what I do (web development, JavaScript, Vue.js, Node.js) I use the following: 
 
 - [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][JavaScript / TypeScript]]
@@ -594,7 +596,7 @@ Installation is usually quite straight forward via ~npm~.
     :config
     (which-key-mode))
 #+END_SRC
-**** Prettier
+*** Prettier
 [[https://prettier.io/][Prettier]] is an "opinionated code formatter" for JavaScript, HTML, CSS, SCSS, Vue and more. To use it you must first install it on your system by running ~npm install -g prettier~. Once that is done you can use it in Emacs (and configure it to your liking) with [[https://github.com/prettier/prettier-emacs][prettier-js]]. Check out the documentation how to configure what you like best (tabs / spaces, indentation size, single / double quotes and the like).
 #+BEGIN_SRC emacs-lisp
 (use-package prettier-js
