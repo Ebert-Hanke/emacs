@@ -1,5 +1,6 @@
 #+STARTUP: overview
 * Yet Another Emacs Config 
+Hi! My name is Micha and I write [[https://github.com/graum/xyz][poetry]] in Emacs. I also use it to make a living as a developer for web stuff. 
 This is my attempt to help new people start using Emacs for writing and coding. I have been using Emacs for some years now and this is what I have learned so far. I hope you enjoy Emacs as much as I do!
 * Thanks!
 I am by no means an expert on Emacs. Everything I know I slowly cobbled together from different resources. There is a lot of good stuff out there about Emacs and many great people devoted lots of energy to compiling all that knowledge. Many of the things you find in this file are taken from one of these resources or based upon it so I want to give due credit and say thank you! 
