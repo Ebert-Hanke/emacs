@@ -527,6 +527,7 @@ If possible nowadays I use Org but Markdown also comes in handy a lot of times a
 )
 #+END_SRC
 **** JS2 Mode
+For all your JavaScript concerns [[https://github.com/mooz/js2-mode][js2-mode]] is the right one to use. More details can be found in the [[https://elpa.gnu.org/packages/js2-mode.html][description]] here.
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
     :ensure t
@@ -539,6 +540,7 @@ If possible nowadays I use Org but Markdown also comes in handy a lot of times a
     )
 #+END_SRC
 **** JSON Mode
+[[https://github.com/joshwnj/json-mode][json-mode]] gives you syntax highlighting as well as some key bindings for working with JSON files in emacs.
 #+begin_src emacs-lisp
 (use-package json-mode
 :ensure t
@@ -553,12 +555,13 @@ On the fly syntax checking for many languages. Check out the [[https://www.flych
     (global-flycheck-mode))
 #+END_SRC
 **** LSP Mode
-LSP servers need to be installed > [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP servers]]
+[[https://en.wikipedia.org/wiki/Language_Server_Protocol][LSP]] was originally developed for [[https://en.wikipedia.org/wiki/Visual_Studio_Code][Visual Studio Code]] by Microsoft and is now an open standard. It is the driving force behind many IDE features in VSCode. If this might be the editor you are switching from to Emacs, fear not – all this (and more) can be had in Emacs. [[https://github.com/emacs-lsp/lsp-mode/][lsp-mode]] is a LSP client for Emacs and integrates with packages like company, flycheck and projectile. To make it work you need the appropriate [[https://emacs-lsp.github.io/lsp-mode/page/languages/][LSP Servers]] installed on your system. For what I do (web development, JavaScript, Vue.js, Node.js) I use the following: 
 
-currently used LSPs:
 - [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][JavaScript / TypeScript]]
 - [[https://emacs-lsp.github.io/lsp-mode/page/lsp-vetur/][Vue]]
 - [[https://emacs-lsp.github.io/lsp-mode/page/lsp-json/][JSON]]
+
+Installation is usually quite straight forward via ~npm~.
 
 #+BEGIN_SRC emacs-lisp
 ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -592,7 +595,7 @@ currently used LSPs:
     (which-key-mode))
 #+END_SRC
 **** Prettier
-prettier must be installed with ~npm install -g prettier~
+[[https://prettier.io/][Prettier]] is an "opinionated code formatter" for JavaScript, HTML, CSS, SCSS, Vue and more. To use it you must first install it on your system by running ~npm install -g prettier~. Once that is done you can use it in Emacs (and configure it to your liking) with [[https://github.com/prettier/prettier-emacs][prettier-js]]. Check out the documentation how to configure what you like best (tabs / spaces, indentation size, single / double quotes and the like).
 #+BEGIN_SRC emacs-lisp
 (use-package prettier-js
 :ensure t
