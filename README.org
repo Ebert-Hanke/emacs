@@ -458,6 +458,17 @@ All flame wars may end, best of both worlds, peace. [[https://github.com/emacs-e
 (evil-mode 1)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up))
 #+END_SRC
+*** Evil Escape
+Pressing =ESC= to go back to normal mode is not really ergonomic [[https://github.com/syl20bnr/evil-escape][Evil Escape Mode]] allows you to remap this to something else. I like to put it on the home row.
+#+begin_src emacs-lisp
+(use-package evil-escape
+:ensure t
+:config
+(evil-escape-mode 1)
+(setq-default evil-escape-key-sequence "jj")
+(setq-default evil-escape-delay 0.2)
+)
+#+end_src
 *** Relative Line Numbers
 Since I use [[https://github.com/emacs-evil/evil][Evil Mode]], I like to have relative line numbers. Check [[https://github.com/xcodebuild/nlinum-relative][nlinum-relative]] for details.
 #+BEGIN_SRC emacs-lisp
