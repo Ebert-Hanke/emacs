@@ -630,3 +630,41 @@ Installation is usually quite straight forward via ~npm~.
                             (enable-minor-mode
                              '("\\.jsx?\\'" . prettier-js-mode))))
 #+END_SRC
+** Email in Emacs
+In order to spend more of your life in Emacs and make email in general suck less, you can use Emacs as your email client. There are a lot of different options and approaches to set this up. The one I want to outline here involves [[https://isync.sourceforge.io/][mbsync / isync]] and [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]].
+Setting this all up is a litte work so lets go step by step: 
+First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a lool [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. ~~/Maildir~ for example. Next you need to set up a config for mbsync which is in the file ~~/.mbsyncrc~. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. This [[https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/][post]] by [[https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/][Rakhim]] was really helpfull to set this all up.
+#+begin_src 
+#the blank lines in this files are important to specify sections, so keep them or it will not work
+#specify your account with a name, the host server, port and user
+IMAPAccount anameforyouraccount
+AuthMechs LOGIN
+Host imap.something.something
+Port 993
+User youremail@something.something
+#we dont want to put our password here but in an encrypted file
+PassCmd "gpg --decrypt ~/.yoursecret.gpg"
+#we spicify connection type and version
+SSLType IMAPS
+SSLVersions TLSv1.2
+
+#now we add our imapstore
+IMAPStore anameforyourstoreremote
+Account anameforyouraccount
+
+MaildirStore anameforyouraccountlocal
+Path ~/Maildir/
+Inbox ~/Maildir/inbox
+SubFolders Verbatim
+
+# This section a "channel", a connection between remote and local
+Channel fastmail
+Master :fastmail-remote:
+Slave :fastmail-local:
+Patterns *
+Expunge None
+CopyArrivalDate yes
+Sync All
+Create Slave
+SyncState *
+#+end_src
