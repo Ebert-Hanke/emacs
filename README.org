@@ -689,3 +689,36 @@ Now we can sync our imap account with the command ~mbsync -a~.
 If everything works as expected it should take a while and then you have a local sync of all your email.
 
 *** Reading Mail
+In order to read mail we will use [[https://notmuchmail.org/][Notmuch]]. Have a lool at the projects home page and see the section "Obtaining Notmuch" on how to install it for your operating system.
+After installing Notmuch we need to set it up to index all our synced email. We run ~notmuch setup~ in the terminal and tell Notmuch the path to our local email folder and some other optional information. This will build an initial database which will be used for tagging. The key concept of Notmuch is to not manipulate your email in any way. All it does it to reference additional data (tags) to the actual email files. This means you can not delete mail from Notmuch which might fee a bit weird but makes sense. What you can do is tag mail for deletion and the use a script to actually delete the mail. More on that later.
+Now we want to make Notmuch work in Emacs. Depending on the way you installed it, it might have come with the Emacs frontend out of the box. If the following does not work just install the notmuch package your favorite way. [[https://notmuchmail.org/notmuch-emacs/][Here]] you find more information on the Emacs setup. The barebones should be:
+
+#+begin_src emacs-lisp
+(require 'notmuch)
+#+end_src
+
+Now you should be able to start Notmuch the usual way =M-x notmuch=. Feel free to define a global keybinding for this like so:
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c M") 'notmuch)
+#+end_src
+
+Once in the Notmuch starting screen you can press =G= to update email. For all the details how Notmuch works please check out the documentation on the project website. It is important to understand, that if you press =G= all it does is to reindex your local mail folder. It does not get the new mail from the server. This is the job of mbsync. To make this smoother we will now create a little scrip as a hook in Notmuch. See [[https://notmuchmail.org/manpages/notmuch-hooks-5/][Notmuch Hooks]] for more info for this. We want to do the following in the terminal:
+
+#+begin_src sh
+cd yourmaildir/.notmuch
+mkdir hooks
+cat > pre-new
+#!/bin/zsh
+mbsync -a
+#+end_src
+
+Change to first line to your shell and press =Ctrl+D= or =Ctrl+C= to exit. Now we need to make the file executable by:
+
+#+begin_src sh
+chmod +x pre-new
+#+end_src
+
+Now when we will press =G= in the Notmuch start screen it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
+
+
