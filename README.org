@@ -631,40 +631,59 @@ Installation is usually quite straight forward via ~npm~.
                              '("\\.jsx?\\'" . prettier-js-mode))))
 #+END_SRC
 ** Email in Emacs
-In order to spend more of your life in Emacs and make email in general suck less, you can use Emacs as your email client. There are a lot of different options and approaches to set this up. The one I want to outline here involves [[https://isync.sourceforge.io/][mbsync / isync]] and [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]].
-Setting this all up is a litte work so lets go step by step: 
-First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a lool [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. ~~/Maildir~ for example. Next you need to set up a config for mbsync which is in the file ~~/.mbsyncrc~. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. This [[https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/][post]] by [[https://rakhim.org/fastmail-setup-with-emacs-mu4e-and-mbsync-on-macos/][Rakhim]] was really helpfull to set this all up.
-#+begin_src 
-#the blank lines in this files are important to specify sections, so keep them or it will not work
-#specify your account with a name, the host server, port and user
-IMAPAccount anameforyouraccount
-AuthMechs LOGIN
-Host imap.something.something
+*** Intro
+In order to spend more of your life in Emacs and make email in general suck less, you can use Emacs as your email client. There are a lot of different options and approaches to set this up. The one I want to outline here involves [[https://isync.sourceforge.io/][mbsync / isync]], [[https://marlam.de/msmtp/msmtp.html][msmtp]] and [[https://notmuchmail.org/][Notmuch]]. This is of course an opinionated topic so feel free to do your own research online and check out options like [[https://www.offlineimap.org/][offlineimap]] for syncinv mail and [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] as a mail frontend for Emacs.
+Generally speaking we need three things:
+
+1. a solution to sync our email from a server via [[https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol][IMAP]] to our computer as a local copy (mbsync, offlineimap, etc)
+2. a comfortable way to read and write sort and filter email in Emacs (notmuch, mu4e, etc)
+3. a way to send email via [[https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol][SMTP]] (this can be done with [[https://www.emacswiki.org/emacs/SendingMail][Emacs onboard solution]] or msmtp)
+
+*** Getting Mail
+First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a look [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. ~~/Maildir~ for example. Next you need to set up a config for mbsync which is in the file ~~/.mbsyncrc~. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. 
+
+#+begin_src sh
+###  One Mail Account ###
+
+IMAPAccount accountname
+Host yourserver
 Port 993
-User youremail@something.something
-#we dont want to put our password here but in an encrypted file
-PassCmd "gpg --decrypt ~/.yoursecret.gpg"
-#we spicify connection type and version
+User yourusername	
+# we dont want to store credentials in plain text so we encrypt the file and decrypt it here
+# choose any path and filename and see below how to encrypt
+PassCmd "gpg -q --for-your-eyes-only --no-tty -d ~/.yourimappassword.gpg"
 SSLType IMAPS
 SSLVersions TLSv1.2
 
-#now we add our imapstore
-IMAPStore anameforyourstoreremote
-Account anameforyouraccount
+# Remote
+IMAPStore accountname-remote
+Account accountname
 
-MaildirStore anameforyouraccountlocal
-Path ~/Maildir/
-Inbox ~/Maildir/inbox
+# Local Storage
+MaildirStore accountname-local
+Path ~/Maildir/accountname/
+Inbox ~/Maildir/accountname/INBOX
+#if you want to download all subfolders
 SubFolders Verbatim
 
-# This section a "channel", a connection between remote and local
-Channel fastmail
-Master :fastmail-remote:
-Slave :fastmail-local:
+# Channel
+Channel accountname
+Master :accountname-remote:
+Slave :accountname-local:
 Patterns *
-Expunge None
+# all mail and folders will be created in both places
+Create Both
+# all mail and folders will be permanently deletd in both places
+# be careful here and test first if your setup works as expected
+Expunge Both
 CopyArrivalDate yes
-Sync All
-Create Slave
-SyncState *
+# For help about the config parameters:
+# https://isync.sourceforge.io/
+# there are some empty lines here to separate block, keep them around or it wont work
+# add as many accounts with according to this schema below each other
 #+end_src
+
+Now we can sync our imap account with the command ~mbsync -a~. 
+If everything works as expected it should take a while and then you have a local sync of all your email.
+
+*** Reading Mail
