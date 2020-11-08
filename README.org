@@ -703,22 +703,22 @@ Now you should be able to start Notmuch the usual way =M-x notmuch=. Feel free t
 (global-set-key (kbd "C-c M") 'notmuch)
 #+end_src
 
-Once in the Notmuch starting screen you can press =G= to update email. For all the details how Notmuch works please check out the documentation on the project website. It is important to understand, that if you press =G= all it does is to reindex your local mail folder. It does not get the new mail from the server. This is the job of mbsync. To make this smoother we will now create a little scrip as a hook in Notmuch. See [[https://notmuchmail.org/manpages/notmuch-hooks-5/][Notmuch Hooks]] for more info for this. We want to do the following in the terminal:
+Once in the Notmuch starting screen you can press =G= to update email. For all the details how Notmuch works please check out the documentation on the project website. It is important to understand, that if you press =G= all it does is to reindex your local mail folder. It does not get the new mail from the server. This is the job of mbsync. To make this smoother we will now create a little script as a hook in Notmuch. See [[https://notmuchmail.org/manpages/notmuch-hooks-5/][Notmuch Hooks]] for more info on this. We want to do the following in the terminal:
 
 #+begin_src sh
 cd yourmaildir/.notmuch
 mkdir hooks
 cat > pre-new
 #!/bin/zsh
-mbsync -a
+Mbsync -a
 #+end_src
 
-Change to first line to your shell and press =Ctrl+D= or =Ctrl+C= to exit. Now we need to make the file executable by:
+Change the ~#!/bin/zsh~ part to your shell and press =Ctrl+D= or =Ctrl+C= to exit. Now we need to make the file executable by:
 
 #+begin_src sh
 chmod +x pre-new
 #+end_src
 
-Now when we will press =G= in the Notmuch start screen it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
+When we press =G= in the Notmuch start screen now it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
 
 
