@@ -639,6 +639,14 @@ Generally speaking we need three things:
 2. a comfortable way to read and write, sort and filter email in Emacs (notmuch, mu4e, etc)
 3. a way to send email via [[https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol][SMTP]] (this can be done with [[https://www.emacswiki.org/emacs/SendingMail][Emacs onboard solution]] or msmtp)
 
+*** Thanks
+This took me a moment to figure out and other than all the documentation there were some really good resources / examples for setups I would like to point out ... and say thank you!
+- Adolfo Villafiorita's article on [[https://ict4g.net/adolfo/notes/emacs/reading-imap-mail-with-emacs.html][Reading IMAP email in Emacs]]
+- Steffen Rademacker's article on [[https://webgefrickel.de/blog/a-modern-mutt-setup][A modern mutt setup with neomutt, mbsync, msmtp and mu]]
+- fellow emacs-berlin member jman's config
+- Vedang Manerikar's talk about [[https://www.youtube.com/watch?v=wuSPssykPtE][Email workflows in Notmuch]] and his [[https://gist.github.com/vedang/26a94c459c46e45bc3a9ec935457c80f][setup for it]]
+- Gregory J Stein's article [[http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/][A Complete Guide to Email in Emacs using Mu and Mu4e]] 
+- BostonEnginerd's article [[https://bostonenginerd.com/posts/notmuch-of-a-mail-setup-part-1-mbsync-msmtp-and-systemd/][Notmuch of a mail setup Part 1]] and [[https://bostonenginerd.com/posts/notmuch-of-a-mail-setup-part-2-notmuch-and-emacs/][Part 2]]
 *** Getting Mail
 First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a look [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. =~/Maildir= for example. Next you need to set up a config for mbsync which is in the file =~/.mbsyncrc=. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. 
 
@@ -721,4 +729,38 @@ chmod +x pre-new
 
 When we press =G= in the Notmuch start screen now it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
 
+*** Sending Mail
+To send mail we will use [[https://marlam.de/msmtp/msmtp.html][msmtp]]. While Emacs comes equipped to send mail, I find this a bit easier if you want to use differen SMTP-servers for different identities. 
+First step is to install msmtp on your system via the appropriate packet manager. Next we need to configure msmtp with a config file which should be =~/.msmtprc=. The following should provide a good starting point. Check the msmtp website for more details on the configuration.
 
+#+begin_src sh
+### one account ###
+account youraccountname
+host yourserveraddress
+port 465
+protocol smtp
+auth on
+user yourusername
+from youremailaddress
+passwordeval "gpg -q --for-your-eyes-only --no-tty -d ~/.secrets/.yoursmtppassword.gpg"
+tls on
+tls_starttls off
+# add as many accounts according to this schema below each other
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; change the directory to store the sent mail abnd drafts
+  ;; this is set relative to your main maildir, where the .notmuch lives
+  (setq message-directory "youraccount/Drafts")
+  (setq notmuch-fcc-dirs "youraccount/Sent")
+  ;; add Cc and Bcc headers to the message buffer
+  (setq message-default-mail-headers "Cc: \nBcc: \n")
+  ;; use to send mail msmtp
+  (setq message-send-mail-function 'message-send-mail-with-sendmail)
+  (setq sendmail-program "/usr/local/bin/msmtp")
+  ;; tell msmtp to choose the SMTP server according to the from field in the outgoing email - taken from Adolfo Villafiorita
+  (setq message-sendmail-extra-arguments '("--read-envelope-from"))
+  (setq message-sendmail-f-is-evil 'T)
+  ;; close buffer after send  
+  (setq message-kill-buffer-on-exit t)
+#+end_src
