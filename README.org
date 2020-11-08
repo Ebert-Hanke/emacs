@@ -753,7 +753,7 @@ tls_starttls off
   ;; change the directory to store the sent mail and drafts
   ;; this is set relative to your main maildir, where the .notmuch lives
   (setq message-directory "youraccount/Drafts")
-  (setq notmuch-fcc-dirs "youraccount/Sent -unread -inbox")
+  (setq notmuch-fcc-dirs "youraccount/Sent -unread -inbox +sent")
   ;; add Cc and Bcc headers to the message buffer
   (setq message-default-mail-headers "Cc: \nBcc: \n")
   ;; use to send mail msmtp
