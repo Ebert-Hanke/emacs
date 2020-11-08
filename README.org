@@ -710,7 +710,7 @@ cd yourmaildir/.notmuch
 mkdir hooks
 cat > pre-new
 #!/bin/zsh
-Mbsync -a
+mbsync -a
 #+end_src
 
 Change the ~#!/bin/zsh~ part to your shell and press =Ctrl+D= or =Ctrl+C= to exit. Now we need to make the file executable by:
