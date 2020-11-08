@@ -640,7 +640,7 @@ Generally speaking we need three things:
 3. a way to send email via [[https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol][SMTP]] (this can be done with [[https://www.emacswiki.org/emacs/SendingMail][Emacs onboard solution]] or msmtp)
 
 *** Getting Mail
-First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a look [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. ~~/Maildir~ for example. Next you need to set up a config for mbsync which is in the file ~~/.mbsyncrc~. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. 
+First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a look [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. =~/Maildir= for example. Next you need to set up a config for mbsync which is in the file =~/.mbsyncrc=. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. 
 
 #+begin_src sh
 ###  One Mail Account ###
