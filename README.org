@@ -648,6 +648,7 @@ This took me a moment to figure out and other than all the documentation there w
 - Gregory J Stein's article [[http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/][A Complete Guide to Email in Emacs using Mu and Mu4e]] 
 - BostonEnginerd's article [[https://bostonenginerd.com/posts/notmuch-of-a-mail-setup-part-1-mbsync-msmtp-and-systemd/][Notmuch of a mail setup Part 1]] and [[https://bostonenginerd.com/posts/notmuch-of-a-mail-setup-part-2-notmuch-and-emacs/][Part 2]]
 - Thomas Heartman's article [[https://blog.thomasheartman.com/posts/notmuch-(un)tag-outgoing-mail][Notmuch: (un)tag outgoing mail]]
+- Stian Soiland-Reyes [[https://gist.github.com/stain/c176164be966eb5c1850ea0886058b49][config]]
 *** Getting Mail
 First you should install isync which is a tool which will sync your imap email account to a local folder on your harddrive. Depending on your OS there are different ways to do this. For Linux have a look [[https://sourceforge.net/p/isync/isync/ci/master/tree/][here]]. For MacOS you can do ~brew install isync~ via [[https://brew.sh/][Homebrew]]. Once that is done you need to set up a folder where you want your sinced emails to go. =~/Maildir= for example. Next you need to set up a config for mbsync which is in the file =~/.mbsyncrc=. The following can be used as a starting point. The manual for all options can be found [[https://manpages.debian.org/unstable/isync/mbsync.1.en.html][here]]. 
 
