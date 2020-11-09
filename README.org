@@ -698,7 +698,7 @@ Now we can sync our imap account with the command ~mbsync -a~.
 If everything works as expected it should take a while and then you have a local sync of all your email.
 
 *** Reading Mail
-In order to read mail we will use [[https://notmuchmail.org/][Notmuch]]. Have a lool at the projects home page and see the section "Obtaining Notmuch" on how to install it for your operating system.
+In order to read mail we will use [[https://notmuchmail.org/][Notmuch]]. Have a look at the projects home page and see the section "Obtaining Notmuch" on how to install it for your operating system.
 After installing Notmuch we need to set it up to index all our synced email. We run ~notmuch setup~ in the terminal and tell Notmuch the path to our local email folder and some other optional information. This will build an initial database which will be used for tagging. The key concept of Notmuch is to not manipulate your email in any way. All it does it to reference additional data (tags) to the actual email files. This means you can not delete mail from Notmuch which might fee a bit weird but makes sense. What you can do is tag mail for deletion and the use a script to actually delete the mail. More on that later.
 Now we want to make Notmuch work in Emacs. Depending on the way you installed it, it might have come with the Emacs frontend out of the box. If the following does not work just install the notmuch package your favorite way. [[https://notmuchmail.org/notmuch-emacs/][Here]] you find more information on the Emacs setup. The barebones should be:
 
@@ -769,9 +769,9 @@ Next up is the configuration part in Emacs.
   (setq message-kill-buffer-on-exit t)
 #+end_src
 
-Since this config is aimed at people having more than one email identity we need a solution for this. We are alredy telling msmtp to choose the right profile according to the from field in our email but in order for the email to be stored in the right sent folder we need to change the ~notmuch-fcc-dirs~ variable accordingly. To solve this we will use [[https://www.emacswiki.org/emacs/gnus-alias.el][gnus-alias]]. Download this and put it in your loading path.
+Since this config is aimed at people having more than one email identity we need a solution for this. We are already telling msmtp to choose the right profile according to the from field in our email but in order for the email to be stored in the right sent folder we need to change the ~notmuch-fcc-dirs~ variable accordingly. To solve this we will use [[https://www.emacswiki.org/emacs/gnus-alias.el][gnus-alias]]. Download this and put it in your loading path.
 It is important to specify your email identities in your ~.notmuch-config~ which was created in your home folder. Here under the section ~[user]~ you can add ~other_email=yourotheremail@something.com~.
-If you have more than one email identities you dont need to specify the ~notmuch-fcc-dirs~ as seen above since it will be changed accordingly.
+If you have more than one email identity you dont need to specify the ~notmuch-fcc-dirs~ as seen above since it will be changed accordingly.
 To do this we add to our Emacs config:
 
 #+begin_src emacs-lisp
