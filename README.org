@@ -729,7 +729,6 @@ chmod +x pre-new
 #+end_src
 
 When we press =G= in the Notmuch start screen now it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
-
 *** Composing and Sending Mail
 To send mail we will use [[https://marlam.de/msmtp/msmtp.html][msmtp]]. While Emacs comes equipped to send mail, I find this a bit easier if you want to use differen SMTP-servers for different identities. 
 First step is to install msmtp on your system via the appropriate packet manager. Next we need to configure msmtp with a config file which should be =~/.msmtprc=. The following should provide a good starting point. Check the msmtp website for more details on the configuration.
@@ -816,8 +815,8 @@ To do this we add to our Emacs config:
   (add-hook 'message-setup-hook 'gnus-alias-determine-identity)
 #+end_src
 
-As you can see we switch the =Fcc= to specify the correct send folder and also add and remove tags so sent mail will be treated as such.
-All the variables in gnus-alias are documented in detail so just inspect them with =C-h v=. For the rules you can do any regular expression to haven more complex filter scenarios to choose the right identity. 
+As you can see we switch the =Fcc= to specify the correct sent folder and also add and remove tags so sent mail will be treated as such.
+All the variables in gnus-alias are documented in detail so just inspect them with =C-h v=. For the rules you can do any regular expression to have more complex filter scenarios to choose the right identity. 
 
 It is also useful to have a quick way to switch identities when composing a message. Lets bind a key to this.
 
@@ -826,3 +825,32 @@ It is also useful to have a quick way to switch identities when composing a mess
     'gnus-alias-select-identity)
 #+end_src
 
+*** Deleting Mail
+It is my belief that email you never would likely go back to should be deleted. Since it is the philosphy of Notmuch to not alter your email in any way but only to reference it in a database, deleting email is not something Notmuch does. Hoever we can tag email for deletion and by default Notmuch hides email which is tagged with =deleted=. Of course you can still see the mail if you filter for this tag but for the moment it is out of sight. So we want a way to easily toggle this tag:
+
+#+begin_src emacs-lisp
+  ;; toggle the tag 'deleted'
+  (define-key notmuch-show-mode-map "d"
+    (lambda ()
+      "toggle todelete tag for message"
+      (interactive)
+      (if (member "deleted" (notmuch-show-get-tags))
+          (notmuch-show-tag (list "-deleted"))
+        (notmuch-show-tag (list "+deleted")))))
+#+end_src
+
+This of course can be used as a blueprint for any tagging you might want to do quickly.
+Now that we can mark emails for deletion we might also want to really delete the email files and sync up to our server. Be careful since this is pretty permanent.
+We use Notmuch to output all the files marked with the =deleted= tag and pipe this output into [[https://www.howtogeek.com/435164/how-to-use-the-xargs-command-on-linux/][xargs]] to delete them. This could be a shell script or a cron job but I just like to call it from within Emacs. Of course you can do any other option. I also dont bind a key to this to make it a bit more of a conscious decision to call the function. Do how you see fit.
+
+#+begin_src emacs-lisp
+  ;; delete all messages with the tag deleted
+  (defun eh-delete-tagged-messages ()
+    ;; filter all messages for tag deleted and delete them
+    (interactive)
+    (shell-command "notmuch search --output=files tag:deleted | xargs -L 1 rm"))
+#+end_src
+
+*** Email Workflow
+Notmuch is an immensely powerful tool and you should make up your mind how you want to tackle your email situation with it. Have a look at the Notmuch documentation, especially [[https://notmuchmail.org/manpages/notmuch-search-terms-7/][Notmuch Search Terms]], [[https://notmuchmail.org/initial_tagging/][Initial Tagging]] and [[https://notmuchmail.org/manpages/notmuch-hooks-5/][Hooks]]. For me the starting point to get excited about Notmuch was [[https://www.youtube.com/watch?v=wuSPssykPtE][a talk]] by [[https://vedang.me/blog/][Vedang Manerikar]] who also kindly shares [[https://gist.github.com/vedang/26a94c459c46e45bc3a9ec935457c80f][his setup]]. A big shoutout and thank you!
+So I hope you come up with a good setup for your needs!
