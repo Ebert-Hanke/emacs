@@ -730,7 +730,7 @@ chmod +x pre-new
 
 When we press =G= in the Notmuch start screen now it will call mbsync to sync all mail from the server(s) and then have Notmuch index it.
 
-*** Sending Mail
+*** Composing and Sending Mail
 To send mail we will use [[https://marlam.de/msmtp/msmtp.html][msmtp]]. While Emacs comes equipped to send mail, I find this a bit easier if you want to use differen SMTP-servers for different identities. 
 First step is to install msmtp on your system via the appropriate packet manager. Next we need to configure msmtp with a config file which should be =~/.msmtprc=. The following should provide a good starting point. Check the msmtp website for more details on the configuration.
 
@@ -749,6 +749,9 @@ tls_starttls off
 # add as many accounts according to this schema below each other
 #+end_src
 
+To compose email Notmuch uses a mode derived from [[https://www.emacswiki.org/emacs/MessageMode][Message Mode]]. 
+Next up is the configuration part in Emacs. 
+
 #+begin_src emacs-lisp
   ;; change the directory to store the sent mail and drafts
   ;; this is set relative to your main maildir, where the .notmuch lives
@@ -766,3 +769,60 @@ tls_starttls off
   ;; close buffer after send  
   (setq message-kill-buffer-on-exit t)
 #+end_src
+
+Since this config is aimed at people having more than one email identity we need a solution for this. We are alredy telling msmtp to choose the right profile according to the from field in our email but in order for the email to be stored in the right sent folder we need to change the ~notmuch-fcc-dirs~ variable accordingly. To solve this we will use [[https://www.emacswiki.org/emacs/gnus-alias.el][gnus-alias]]. Download this and put it in your loading path.
+It is important to specify your email identities in your ~.notmuch-config~ which was created in your home folder. Here under the section ~[user]~ you can add ~other_email=yourotheremail@something.com~.
+If you have more than one email identities you dont need to specify the ~notmuch-fcc-dirs~ as seen above since it will be changed accordingly.
+To do this we add to our Emacs config:
+
+#+begin_src emacs-lisp
+  ;;; use gnus-alias to switch between identities
+
+  ;; add gnus-alias to loading path and autoload
+  (add-to-list 'load-path "~/.emacs.d/plugins/gnus-alias/")
+  (autoload 'gnus-alias-determine-identity "gnus-alias" "" t)
+
+  ;; define identities
+  ;; define two identities, "home" and "work"
+  (setq gnus-alias-identity-alist
+        '(("home"
+           nil ;; does not refer to any other identity
+           "Your Name <mail@something.com>" ;; Sender address
+           nil ;; no organization header
+           (("Fcc" . "accountone/Sent -unread -inbox +sent")) ; extra headers
+           nil ;; no extra body text
+           "~/.signature-home" ;; signature
+           )
+          ("job"
+           nil ;; not referencing another identity
+           "Your Other Name <moremail@else.com>"
+           "Fancy Coding" ; organisation header
+           (("Fcc" . "accounttwo/Sent -unread -inbox +sent")) ; extra headers
+           nil ;; no extra body text
+           "~/.signature-job"))) ; signature file
+
+  ;; set your "job" identity as default
+  (setq gnus-alias-default-identity "job")
+
+  ;; define rules to match identities for replies
+  (setq gnus-alias-identity-rules
+        '(
+          ("home"
+           ("any" "mail@something.com" both) "hob")
+          )
+        ) 
+
+  ;; hook into message setup
+  (add-hook 'message-setup-hook 'gnus-alias-determine-identity)
+#+end_src
+
+As you can see we switch the =Fcc= to specify the correct send folder and also add and remove tags so sent mail will be treated as such.
+All the variables in gnus-alias are documented in detail so just inspect them with =C-h v=. For the rules you can do any regular expression to haven more complex filter scenarios to choose the right identity. 
+
+It is also useful to have a quick way to switch identities when composing a message. Lets bind a key to this.
+
+#+begin_src emacs-lisp
+  (define-key notmuch-message-mode-map (kbd "<f7>")
+    'gnus-alias-select-identity)
+#+end_src
+
