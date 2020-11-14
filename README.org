@@ -54,6 +54,8 @@ In order to make this work you will need to place the following in your ~init.el
 #+END_SRC
 ** Code Blocks in Org Mode
 The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognizable as such for formatting and also for Org Babel it is marked as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
+** Editing Code Blocks
+In order to edit code blocks in their respective mode and get proper syntax highlighting and formatting, you can do =C-c '= on the code block to open a new buffer to edit. To close just do =C-c '= again.    
 ** Comments in Emacs Lisp
 Since this config will mostly be written in Org Mode, there will be a lot of explanation and links to further reading material in the prose parts but putting comments in the code blocks themselves is of course always good practice. For the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html][Emacs Lisp Comment Syntax]] have a look here.
 ** Emacs Packages & MELPA
@@ -755,7 +757,7 @@ Next up is the configuration part in Emacs.
 #+begin_src emacs-lisp
   ;; change the directory to store the sent mail and drafts
   ;; this is set relative to your main maildir, where the .notmuch lives
-  (setq message-directory "youraccount/Drafts")
+  (setq message-directory "yourmaildir/Drafts")
   ;; here you set the directory for the sent mail and the taglist for sent mail
   (setq notmuch-fcc-dirs "youraccount/Sent -unread -inbox +sent")
   ;; add Cc and Bcc headers to the message buffer
@@ -855,3 +857,69 @@ We use Notmuch to output all the files marked with the =deleted= tag and pipe th
 *** Email Workflow
 Notmuch is an immensely powerful tool and you should make up your mind how you want to tackle your email situation with it. Have a look at the Notmuch documentation, especially [[https://notmuchmail.org/manpages/notmuch-search-terms-7/][Notmuch Search Terms]], [[https://notmuchmail.org/initial_tagging/][Initial Tagging]] and [[https://notmuchmail.org/manpages/notmuch-hooks-5/][Hooks]]. For me the starting point to get excited about Notmuch was [[https://www.youtube.com/watch?v=wuSPssykPtE][a talk]] by [[https://vedang.me/blog/][Vedang Manerikar]] who also kindly shares [[https://gist.github.com/vedang/26a94c459c46e45bc3a9ec935457c80f][his setup]]. A big shoutout and thank you!
 So I hope you come up with a good setup for your needs!
+*** Workflow Basics
+In this section I want to give some ideas and starting point what you might want to do in terms of tagging and filtering with Notmuch. First up is defining some search based mailboxes in Emacs:
+
+#+begin_src emacs-lisp
+  ;; notmuch "mailboxes" (predefined searches)
+  (setq notmuch-saved-searches 
+        '((:name "Private"
+                 :query "tag:private AND tag:unread"
+                 :key "p"
+                 :sort-order newest-first
+                 :search-type 'tree)
+          (:name "Job"
+                 :query "tag:job AND tag:unread AND NOT tag:feed"
+                 :key "j"
+                 :sort-order newest-first
+                 :search-type 'tree)
+          (:name "Feed"
+                 :query "tag:feed AND tag:unread"
+                 :key "f"
+                 :sort-order newest-first)
+          (:name "Verwaltung"
+                 :query "tag:verwaltung AND tag:unread"
+                 :key "v"
+                 :sort-order newest-first
+                 :search-type 'tree)
+          (:name "To Reply"
+                 :query "tag:toreply AND NOT tag:unread"
+                 :key "r"
+                 :search-type 'tree)
+          (:name "All"
+                 :query "*"
+                 :key "a")
+          (:name "Archive"
+                 :query "tag:archive"
+                 :key "A")))
+#+end_src
+
+This might give you an idea what could be done. To make this work nicely you might want to automatically assign tags to new mail depending on search criteria. Notmuch comes with a hook to do this but there is also a nice "initial tagging script" for Notmuch which is called [[https://afew.readthedocs.io/en/latest/][afew]] which you might want to look into. For the moment we just stick with the hooks of Notmuch. We navigate to the =hooks= folder of notmuch where we already created our ~pre-new~ hook script and add another here like so in the terminal:
+
+#+begin_src sh
+touch post-new
+chmod +x post-new
+#+end_src
+
+Now we can open up the file and add some things as a starting point:
+
+#+begin_src sh
+#! /bin/zsh
+# specify the shell you want to use
+
+# now for example you want to tag things which are coming from mailing lists with "feed"
+notmuch tag +feed -- from:somemailinglist@something.com
+# or do a regular expression
+notmuch tag +feed -- from:"*@something.com"
+# now you could add more specific stuff
+notmuch tag +emacs -- tag:feed AND from:someemacslist@something.com
+
+# to separate your different identities maybe do
+# mail to private
+notmuch tag +private -- to:myprivateaddress@something.com
+
+# mail to job, with filtering out the newsfeed stuff
+notmuch tag +job -- to:mywork@something AND NOT tag:feed
+#+end_src>
+
+This script now will be run everytime after getting new messages. Since you probably will change things around in the beginning you will want to run it manually to retag all existing mail according to your defined rules. Just navigate to your =hooks= directory and run like any shell script with ~./post-new~.
