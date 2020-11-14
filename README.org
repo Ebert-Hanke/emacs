@@ -55,7 +55,7 @@ In order to make this work you will need to place the following in your ~init.el
 ** Code Blocks in Org Mode
 The code used to configure Emacs is written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] a dialect of [[https://en.wikipedia.org/wiki/Lisp_(programming_language)][Lisp]]. To specify a code block in Org Mode to make it recognizable as such for formatting and also for Org Babel it is marked as source code block with a specified language by using the following: ~#+BEGIN_SRC~ and ~#+END_SRC~. For Emacs Lisp and this config it will then look like this: ~#+BEGIN_SRC emacs-lisp~ and ~#+END_SRC~ as you can see above. For more information about [[https://orgmode.org/manual/Working-with-Source-Code.html][Working with Source Code]]  in Org Mode have a look here. 
 ** Editing Code Blocks
-In order to edit code blocks in their respective mode and get proper syntax highlighting and formatting, you can do =C-c '= on the code block to open a new buffer to edit. To close just do =C-c '= again.    
+In order to edit code blocks in their respective mode and get proper syntax highlighting and formatting, you can do ~C-c '~ on the code block to open a new buffer to edit. To close just do ~C-c '~ again.    
 ** Comments in Emacs Lisp
 Since this config will mostly be written in Org Mode, there will be a lot of explanation and links to further reading material in the prose parts but putting comments in the code blocks themselves is of course always good practice. For the [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html][Emacs Lisp Comment Syntax]] have a look here.
 ** Emacs Packages & MELPA
@@ -908,7 +908,7 @@ Now we can open up the file and add some things as a starting point:
 # specify the shell you want to use
 
 # now for example you want to tag things which are coming from mailing lists with "feed"
-notmuch tag +feed -- from:somemailinglist@something.com
+notmuch tag +feed -- from:somemailinglist@something.com OR from:someothermailinglist@something.com
 # or do a regular expression
 notmuch tag +feed -- from:"*@something.com"
 # now you could add more specific stuff
